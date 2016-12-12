@@ -21,8 +21,7 @@
 
 % To do
 % ---------------------
-% - Add a way to shuffle cards
-% - Fix stackElement
+% - Add Hand Class
 
 
 % Class representing a single card
