@@ -5,18 +5,18 @@
 
 % Updates
 % ---------------------
-% Dec 5, 2016
+% Dec 15, 2016
 % - Initial Creation of file
 % - Created DataType of stack
 % - Fix stack pointers
 % - Finished class card
 % ---------------------
-% Dec 6, 2016
+% Dec 16, 2016
 % - Completed Pop and Push for deckOfCards
 % - Fixed stackElement
 % - Added Shuffling
 % ---------------------
-% Dec 7, 2016
+% Dec 17, 2016
 % -
 
 % To do
@@ -25,14 +25,16 @@
 % - Fix stackElement
 
 
+% Class representing a single card
 class card
 
-    export (value, suit, sprite, setValues)
+    export (value, suit, image, setValues, setImage)
+
     % Vaues for class
     var value : int
     var suit : int
     var valueSet : boolean := false
-    var sprite : int
+    var image : int
 
     % Set values of card
     procedure setValues (v, s : int)
@@ -56,49 +58,66 @@ class card
 
     end setValues
 
-    procedure setSprite (path : string)
-	sprite := Pic.FileNew (path)
-    end setSprite
+    % Add Image for Card
+    procedure setImage (path : string)
+	image := Pic.FileNew (path)
+    end setImage
 
 
 end card
 
+% Class representing Deck of Cards
 class deckOfCards
 
+    % Deck of Cards needs class cards
     import card
+
+    % Export Functions
     export (size, push, pop, peek, shuffle, listAll)
+
+    % Variables
     var cards : flexible array 0 .. 0 of ^card
     var size : int := 0
 
+    % Add a card to the deck
     procedure push (c : ^card)
 	new cards, size + 1
 	cards (size) := c
 	size += 1
     end push
 
+    % Take the top card off of the deck
     procedure pop (var c : ^card)
 	c := cards (size)
 	new cards, size - 1
 	size -= 1
     end pop
 
+    % Look at the top card
     procedure peek (var c : ^card)
 	c := cards (size)
     end peek
 
+    % Leek at the card at element e
+    procedure peekAtElement (e : int, var c : ^card)
+	c := cards (e)
+    end peekAtElement
+
+    % Shuffle the order of the cards
     procedure shuffle
 	var indexS : int
 	var temp : ^card
 	for i : 0 .. size - 1
-	    indexS := Rand.Int (0, size -1)
+	    indexS := Rand.Int (0, size - 1)
 	    temp := cards (indexS)
 	    cards (indexS) := cards (i)
 	    cards (i) := temp
 	end for
     end shuffle
 
+    % Print out all the cards
     procedure listAll
-	for i : 0 .. size-1
+	for i : 0 .. size - 1
 	    put "Value: ", cards (i) -> value, " Suit: ", cards (i) -> suit
 	end for
     end listAll
