@@ -63,13 +63,13 @@ class card
     end setImage
 
 
-    procedure compare (c:^card,var r : int)
-	if value > c->value then
-	    r := 1
-	elsif value < c->value then
-	    r := -1
+    function compare (c : ^card) : int
+	if value > c -> value then
+	    result 1
+	elsif value < c -> value then
+	    result - 1
 	else
-	    r := 0
+	    result 0
 	end if
     end compare
 end card
@@ -95,20 +95,21 @@ class deckOfCards
     end push
 
     % Take the top card off of the deck
-    procedure pop (var c : ^card)
-	c := cards (size)
+    function pop : ^card
+	var temp := cards (size)
 	new cards, size - 1
 	size -= 1
+	result temp
     end pop
 
     % Look at the top card
-    procedure peek (var c : ^card)
-	c := cards (size)
+    function peek : ^card
+	result cards (size)
     end peek
 
-    % Leek at the card at element e
-    procedure peekAtElement (e : int, var c : ^card)
-	c := cards (e)
+    % Look at the card at element e
+    function peekAtElement (e : int) : ^card
+	result cards (e)
     end peekAtElement
 
     % Shuffle the order of the cards
