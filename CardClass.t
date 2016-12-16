@@ -120,6 +120,7 @@ class deckOfCards
 	    put "Value: ", cards (i) -> value, " Suit: ", cards (i) -> suit
 	end for
     end listAll
+
 end deckOfCards
 
 
