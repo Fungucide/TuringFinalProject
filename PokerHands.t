@@ -45,7 +45,7 @@ class pair
     socre := 1
 
     procedure isValid (c : array 0 .. 1 of ^cards, var r : boolean)
-        if cards (0) -> compare (cards (1)) = 0 then
+        if c (0) -> compare (c (1)) = 0 then
             r := true
         else
             r := false
@@ -70,10 +70,35 @@ end pair
 class triple
     inherit pokerHand
 
-    score := 2
+    score := 3
 
-    procedure isValid (c : array 0 .. 4 of ^cards, var r : boolean)
-    end is
-    Valid
+    procedure isValid (c : array 0 .. 2 of ^cards, var r : boolean)
+        if c (0) -> compare (c (1)) = 0 and c (1) -> compare (c (2)) then
+            r := true
+        else
+            r := false
+        end if
+    end isValid
 
+    procedure setCards (c : array 0 .. 2 of ^cards)
+        new cards, 1
+        cards (0) := c (0)
+        cards (1) := c (1)
+        cards (2) := c (2)
+        var valid : boolean
+        var highCard := cards (0)
+        isValid (cards, valid)
+        if not valid then
+            put "ERROR -> triple -> setCards"
+            cards (0) := nil
+            cards (1) := nil
+            cards (2) := nil
+        end if
+    end setCards
 end triple
+
+class twoPair
+    inherit pokerHand
+    
+    score:=2
+end twoPair
