@@ -27,7 +27,7 @@
 % Class representing a single card
 class card
 
-    export (value, suit, image, setValues, setImage)
+    export (value, suit, image, setValues, setImage, compare)
 
     % Vaues for class
     var value : int
@@ -63,6 +63,15 @@ class card
     end setImage
 
 
+    procedure compare (c:^card,var r : int)
+	if value > c->value then
+	    r := 1
+	elsif value < c->value then
+	    r := -1
+	else
+	    r := 0
+	end if
+    end compare
 end card
 
 % Class representing Deck of Cards
