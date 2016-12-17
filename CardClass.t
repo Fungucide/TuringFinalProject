@@ -1,4 +1,4 @@
-% Classes.t
+% CardClass.t
 % Dec 5, 2016
 % William Fung
 % card and deck classes
@@ -17,7 +17,7 @@
 % - Added Shuffling
 % ---------------------
 % Dec 17, 2016
-% -
+% - Added a way to sort cards
 
 % To do
 % ---------------------
