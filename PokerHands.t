@@ -13,7 +13,7 @@
 % ---------------------
 % - Add all poker hands
 
-include "CardClass.t"
+%include "CardClass.t"
 class pokerHand
 
     import card, sort
