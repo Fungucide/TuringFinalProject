@@ -133,4 +133,51 @@ class deckOfCards
 
 end deckOfCards
 
+proc sort (var c : array 0 .. * of ^card)
 
+    if upper (c) < 1 then
+	return
+    end if
+
+    var fs : int
+    var ss : int
+
+    if (upper (c) + 1) mod 2 = 0 then
+	fs := (upper (c) + 1) div 2 - 1
+	ss := (upper (c) + 1) div 2 - 1
+    else
+	fs := upper (c) div 2 - 1
+	ss := upper (c) div 2
+    end if
+
+    var f : array 0 .. fs of ^card
+    var s : array 0 .. ss of ^card
+
+    for i : 0 .. fs
+	f (i) := c (i)
+    end for
+
+    for i : ss .. upper (c) - 1
+	s (i - ss) := c (i)
+    end for
+
+    sort (f)
+    sort (s)
+
+    var fc, sc : int := 0
+    for i : 0 .. upper (c)
+	if fc > upper (f) then
+	    c (i) := s (sc)
+	    sc += 1
+	elsif sc > upper (s) then
+	    c (i) := f (fc)
+	    fc += 1
+	elsif f (fc) -> compare (s (sc)) = -1 then
+	    c (i) := f (fc)
+	    fc += 1
+	else
+	    c (i) := s (sc)
+	    sc += 1
+	end if
+    end for
+end sort
