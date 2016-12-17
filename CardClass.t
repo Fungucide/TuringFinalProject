@@ -62,7 +62,7 @@ class card
 	image := Pic.FileNew (path)
     end setImage
 
-
+    % A way to compare cards
     function compare (c : ^card) : int
 	if value > c -> value then
 	    result 1
@@ -133,15 +133,19 @@ class deckOfCards
 
 end deckOfCards
 
+% A way to sort cards
 proc sort (var c : array 0 .. * of ^card)
 
+    % If array is one element long it is sorted
     if upper (c) < 1 then
 	return
     end if
 
+    % Sizes of first and second array
     var fs : int
     var ss : int
 
+    % Find the sizes of the  first and second array
     if (upper (c) + 1) mod 2 = 0 then
 	fs := (upper (c) + 1) div 2 - 1
 	ss := (upper (c) + 1) div 2 - 1
@@ -150,22 +154,31 @@ proc sort (var c : array 0 .. * of ^card)
 	ss := upper (c) div 2
     end if
 
+    % Make arrays to store first and second part of the whole array
     var f : array 0 .. fs of ^card
     var s : array 0 .. ss of ^card
 
+    % Set values of first array
     for i : 0 .. fs
 	f (i) := c (i)
     end for
 
+    % Set values of second array
     for i : ss .. upper (c) - 1
 	s (i - ss) := c (i)
     end for
 
+    % Sort the arrays
     sort (f)
     sort (s)
 
+    % Re-assemble the larger array
+    % Start at the beginning of both arrays
     var fc, sc : int := 0
+
+    % For every element in the array
     for i : 0 .. upper (c)
+	% If one array is empty then use the other one if not then use the smaller one
 	if fc > upper (f) then
 	    c (i) := s (sc)
 	    sc += 1
@@ -180,4 +193,5 @@ proc sort (var c : array 0 .. * of ^card)
 	    sc += 1
 	end if
     end for
+
 end sort
