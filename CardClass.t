@@ -40,13 +40,13 @@ class card
 
 	% Check for value exceptions
 	if v < 1 or v > 14 or s < 1 or s > 4 then
-	    put "Error"
+	    put "Error -> card -> setValues"
 	    quit
 	end if
 
 	% Check for value already set
 	if valueSet then
-	    put "Error"
+	    put "Error -> card -> setValues"
 	    quit
 	end if
 
