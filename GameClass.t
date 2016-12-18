@@ -20,6 +20,14 @@ class player
     var cards : ^hand
     new hand, cards
 
+    procedure bet (p : int)
+	points -= s
+    end bet
+
+    procedure win (p : int)
+	points += p
+    end win
+
 end player
 
 class game
@@ -30,6 +38,11 @@ class game
     var burnPile : ^deckOfCards
     var communityPile : ^hand
     var players : array 0 .. 3 of ^player
+    var minBet : int := 100
+    var smallBlind : boolean := true
+    var bigBlind : boolean := true
+    var dealerPos : int := Rand.Int (0, 3)
+    var pot : int := 0
     new deckOfCards, dealPile
     new deckOfCards, burnPile
     new hand, communityPile
@@ -38,6 +51,7 @@ class game
 	for i : 0 .. upper (c)
 	    dealPile -> push (c (i))
 	end for
+	dealPile -> suffle
 	for i : 0 .. 3
 	    new player, players (i)
 	end for
