@@ -7,11 +7,11 @@
 % ---------------------
 % Dec 15, 2016
 % - Initial Creation of file
-% -
-
-% To do
 % ---------------------
-% - Add all poker hands
+% Dec 17, 2016
+% -Added all pokerhands
+
+% NOTE: Need to be careful for high or low ace
 
 %include "CardClass.t"
 class pokerHand

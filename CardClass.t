@@ -133,8 +133,43 @@ class deckOfCards
 
 end deckOfCards
 
+% Represents a hand in poker
+class hand
+
+    % Import class card
+    import card
+
+    % Export needed functions
+    export (addCard, clearHand,size,getCards)
+
+    % Store cards and size
+    var cards : flexible array 0 .. 0 of ^card
+    var size : int := 0
+
+    % Add a card to the hand
+    procedure addCard (c : ^card)
+	new cards, size + 1
+	cards (size) := c
+	size += 1
+    end addCard
+
+    % Remove all cards from hand
+    procedure clearHand
+	new cards, 0
+	cards (0) := nil
+	size := 0
+    end clearHand
+
+    % Return all cards in hand
+    procedure getCards (var r : array 0 .. * of ^card)
+	for i : 0 .. size
+	    r (i) := cards (i)
+	end for
+    end getCards
+end hand
+
 % A way to sort cards
-proc sort (var c : array 0 .. * of ^card)
+procedure sort (var c : array 0 .. * of ^card)
 
     % If array is one element long it is sorted
     if upper (c) < 1 then
