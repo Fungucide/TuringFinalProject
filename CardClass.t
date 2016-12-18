@@ -1,5 +1,5 @@
 % CardClass.t
-% Dec 5, 2016
+% Dec 15, 2016
 % William Fung
 % card and deck classes
 
@@ -84,8 +84,8 @@ class deckOfCards
     export (size, push, pop, peek, shuffle, listAll)
 
     % Variables
-    var cards : flexible array 0 .. 0 of ^card
-    var size : int := 0
+    var cards : flexible array 0 .. -1 of ^card
+    var size : int := -1
 
     % Add a card to the deck
     procedure push (c : ^card)
@@ -116,7 +116,7 @@ class deckOfCards
     procedure shuffle
 	var indexS : int
 	var temp : ^card
-	for i : 0 .. size - 1
+	for i : 0 .. size
 	    indexS := Rand.Int (0, size - 1)
 	    temp := cards (indexS)
 	    cards (indexS) := cards (i)
@@ -126,7 +126,7 @@ class deckOfCards
 
     % Print out all the cards
     procedure listAll
-	for i : 0 .. size - 1
+	for i : 0 .. size
 	    put "Value: ", cards (i) -> value, " Suit: ", cards (i) -> suit
 	end for
     end listAll
@@ -140,11 +140,11 @@ class hand
     import card
 
     % Export needed functions
-    export (addCard, clearHand,size,getCards)
+    export (addCard, clearHand, size, getCards)
 
     % Store cards and size
-    var cards : flexible array 0 .. 0 of ^card
-    var size : int := 0
+    var cards : flexible array 0 .. -1 of ^card
+    var size : int := -1
 
     % Add a card to the hand
     procedure addCard (c : ^card)
@@ -155,9 +155,8 @@ class hand
 
     % Remove all cards from hand
     procedure clearHand
-	new cards, 0
-	cards (0) := nil
-	size := 0
+	new cards, -1
+	size := -1
     end clearHand
 
     % Return all cards in hand
