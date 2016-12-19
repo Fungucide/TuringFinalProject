@@ -18,7 +18,7 @@ class player
     export (points, cards)
 
     var points : int := 2000
-    var playersBet : int := 0
+    var playerBet : int := 0
     var folded : boolean := false
     var called : boolean := false
     var cards : ^hand
@@ -26,7 +26,7 @@ class player
 
     procedure bet (p : int)
 	points -= p
-	playersBet += p
+	playerBet += p
     end bet
 
     procedure win (p : int)
@@ -80,4 +80,4 @@ class game
 	end for
     end dealCommunity
 
-    end game
+end game
