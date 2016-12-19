@@ -140,7 +140,7 @@ class hand
     import card
 
     % Export needed functions
-    export (addCard, clearHand, size, getCards, cards)
+    export (addCard, clearHand, size, getCards)
 
     % Store cards and size
     var cards : flexible array 0 .. -1 of ^card
