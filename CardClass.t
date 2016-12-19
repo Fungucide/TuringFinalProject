@@ -27,7 +27,7 @@
 % Class representing a single card
 class card
 
-    export (value, suit, image, setValues, setImage, compare, shuffle)
+    export (value, suit, image, setValues, setImage, compare)
 
     % Vaues for class
     var value : int
