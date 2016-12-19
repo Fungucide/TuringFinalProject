@@ -27,7 +27,7 @@
 % Class representing a single card
 class card
 
-    export (value, suit, image, setValues, setImage, compare)
+    export (value, suit, image, setValues, setImage, compare, shuffle)
 
     % Vaues for class
     var value : int
@@ -140,7 +140,7 @@ class hand
     import card
 
     % Export needed functions
-    export (addCard, clearHand, size, getCards)
+    export (addCard, clearHand, size, getCards, cards)
 
     % Store cards and size
     var cards : flexible array 0 .. -1 of ^card
