@@ -15,7 +15,7 @@ include "PokerHands.t"
 class player
 
     import card, hand, sort
-    export (points, cards)
+    export (points, cards, playerBet, folded, called, bet, call, uncall, fold, unfold)
 
     var points : int := 2000
     var playerBet : int := 0
@@ -36,6 +36,22 @@ class player
     procedure clearBet
 	playerBet := 0
     end clearBet
+
+    procedure call
+	called := true
+    end call
+
+    procedure uncall
+	called := false
+    end uncall
+
+    procedure fold
+	folded := true
+    end fold
+
+    procedure unfold
+	folded := false
+    end unfold
 
 end player
 
@@ -60,7 +76,7 @@ class game
 	for i : 0 .. upper (c)
 	    dealPile -> push (c (i))
 	end for
-	dealPile -> suffle
+	dealPile -> shuffle
 	for i : 0 .. 3
 	    new player, players (i)
 	end for
@@ -76,8 +92,16 @@ class game
     procedure dealCommunity (i : int)
 	burnPile -> push (dealPile -> pop)
 	for n : 0 .. i
-	    communityPile -> cards -> addCard (dealPile -> pop)
+	    communityPile -> addCard (dealPile -> pop)
 	end for
     end dealCommunity
 
+    procedure call (n : int)
+	for i : 0 .. 3
+	    if players (n) -> playerBet < players (i) -> playerBet then
+		players (n) -> bet (players (i) -> playerBet - players (n) -> playerBet)
+	    end if
+	end for
+	players (n) -> call
+    end call
 end game
