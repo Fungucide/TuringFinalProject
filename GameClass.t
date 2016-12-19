@@ -104,4 +104,19 @@ class game
 	end for
 	players (n) -> call
     end call
+
+    procedure raise (n, a : int)
+	players (n) -> bet (a)
+	for i : 0 .. 3
+	    players (n) -> uncall
+	end for
+    end raise
+
+    procedure fold (n : int)
+	players (n) -> fold
+    end fold
+
+    procedure allIn (n : int)
+	players (n) -> bet (players (n) -> points)
+    end allIn
 end game
