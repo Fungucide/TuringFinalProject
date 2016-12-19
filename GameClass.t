@@ -1,6 +1,7 @@
 % GameClass.t
 % Dec 17, 2016
 % William Fung
+% Max Tang
 % Poker Hands
 
 % Updates
@@ -17,16 +18,24 @@ class player
     export (points, cards)
 
     var points : int := 2000
+    var playersBet : int := 0
+    var folded : boolean := false
+    var called : boolean := false
     var cards : ^hand
     new hand, cards
 
     procedure bet (p : int)
-	points -= s
+	points -= p
+	playersBet += p
     end bet
 
     procedure win (p : int)
 	points += p
     end win
+
+    procedure clearBet
+	playerBet := 0
+    end clearBet
 
 end player
 
@@ -57,4 +66,18 @@ class game
 	end for
     end initialize
 
-end game
+    procedure dealPlayer
+	for n : 0 .. 3
+	    players (n) -> cards -> addCard (dealPile -> pop)
+	    players (n) -> cards -> addCard (dealPile -> pop)
+	end for
+    end dealPlayer
+
+    procedure dealCommunity (i : int)
+	burnPile -> push (dealPile -> pop)
+	for n : 0 .. i
+	    communityPile -> cards -> addCard (dealPile -> pop)
+	end for
+    end dealCommunity
+
+    end game
