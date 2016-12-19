@@ -15,7 +15,7 @@ include "PokerHands.t"
 class player
 
     import card, hand, sort
-    export (points, cards, playerBet, folded, called, bet, call, uncall, fold, unfold)
+    export (points, cards, playerBet, folded, called, bet, call, uncall, fold, unfold, clearBet)
 
     var points : int := 2000
     var playerBet : int := 0
@@ -119,4 +119,25 @@ class game
     procedure allIn (n : int)
 	players (n) -> bet (players (n) -> points)
     end allIn
+
+    procedure roundOfBetting
+	for i : 0 .. 3
+	    players (i) -> uncall
+	end for
+	loop
+
+	    var foldNum := 0
+	    for i : 0 .. 3
+		if players (i) -> folded then
+		    foldNum += 1
+		end if
+	    end for
+	    exit when players (0) -> called and players (1) -> called and players (2) -> called and players (3) -> called % when all players have called
+	    exit when foldNum = 3 %when all but one player folds
+	end loop
+	for i : 0 .. 3
+	    pot += players (i) -> playerBet
+	    players (i) -> clearBet
+	end for
+    end roundOfBetting
 end game
