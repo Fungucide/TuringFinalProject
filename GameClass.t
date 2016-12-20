@@ -68,6 +68,7 @@ class game
     var bigBlind : boolean := true
     var dealerPos : int := Rand.Int (0, 3)
     var pot : int := 0
+
     new deckOfCards, dealPile
     new deckOfCards, burnPile
     new hand, communityPile
@@ -140,4 +141,10 @@ class game
 	    players (i) -> clearBet
 	end for
     end roundOfBetting
+
+    function checkWin : int
+	% Check using bfs : all possible pokerHands : all possible hands
+	
+    end checkWin
+    
 end game
