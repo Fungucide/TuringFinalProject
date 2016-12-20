@@ -18,11 +18,9 @@
 % ---------------------
 % Dec 17, 2016
 % - Added a way to sort cards
-
-% To do
 % ---------------------
-% - Add Hand Class
-
+% Dec 19, 2016
+% - Fixing export issues
 
 % Class representing a single card
 class card
