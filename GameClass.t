@@ -144,7 +144,13 @@ class game
 
     function checkWin : int
 	% Check using bfs : all possible pokerHands : all possible hands
-	
+	var highestPH : ^pokerHand
+	var highestHand : ^hand
+	var playerInt : int
+
+	new pokerHand, highestPH
+	new hand, highestHand
+
     end checkWin
-    
+
 end game
