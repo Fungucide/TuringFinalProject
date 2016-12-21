@@ -121,26 +121,33 @@ class game
 	players (n) -> bet (players (n) -> points)
     end allIn
 
-    procedure roundOfBetting
+    procedure endRound
+	var foldNum := 0
 	for i : 0 .. 3
-	    players (i) -> uncall
+	    if players (i) -> folded then
+		foldNum += 1
+	    end if
 	end for
-	loop
-
-	    var foldNum := 0
+	if players (0) -> called and players (1) -> called and players (2) -> called and players (3) -> called then % when all players have called
 	    for i : 0 .. 3
-		if players (i) -> folded then
-		    foldNum += 1
-		end if
+		players (i) -> uncall
 	    end for
-	    exit when players (0) -> called and players (1) -> called and players (2) -> called and players (3) -> called % when all players have called
-	    exit when foldNum = 3 %when all but one player folds
-	end loop
-	for i : 0 .. 3
-	    pot += players (i) -> playerBet
-	    players (i) -> clearBet
-	end for
-    end roundOfBetting
+	    for i : 0 .. 3
+		pot += players (i) -> playerBet
+		players (i) -> clearBet
+	    end for
+	elsif foldNum = 3 then
+
+	    for i : 0 .. 3
+		players (i) -> uncall
+	    end for
+	    for i : 0 .. 3
+		pot += players (i) -> playerBet
+		players (i) -> clearBet
+	    end for
+
+	end if
+    end endRound
 
     function checkWin : int
 	% Check using bfs : all possible pokerHands : all possible hands
