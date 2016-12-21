@@ -130,19 +130,19 @@ class game
 	end for
 	if players (0) -> called and players (1) -> called and players (2) -> called and players (3) -> called then % when all players have called
 	    for i : 0 .. 3
-		players (i) -> uncall
+		players (i) -> uncall %all players uncall
 	    end for
 	    for i : 0 .. 3
-		pot += players (i) -> playerBet
+		pot += players (i) -> playerBet %put all money into pot
 		players (i) -> clearBet
 	    end for
-	elsif foldNum = 3 then
+	elsif foldNum = 3 then % when all but one player fold
 
 	    for i : 0 .. 3
-		players (i) -> uncall
+		players (i) -> uncall %all players uncall
 	    end for
 	    for i : 0 .. 3
-		pot += players (i) -> playerBet
+		pot += players (i) -> playerBet %put all money into pot
 		players (i) -> clearBet
 	    end for
 
