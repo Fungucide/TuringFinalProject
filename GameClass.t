@@ -59,6 +59,8 @@ class game
 
     import card, hand, sort, deckOfCards, player, pokerHand, straightFlush, quad, fullHouse, flush, straight, triple, twoPair, pair
 
+    export (dealPile, burnPile, communityPile, players, minBet, smallBlind, bigBlind, dealerPos, pot, initialize, dealPlayer, dealCommunity, call, raise, fold, allIn, endRound)
+
     var dealPile : ^deckOfCards
     var burnPile : ^deckOfCards
     var communityPile : ^hand
@@ -206,7 +208,13 @@ class game
             if flag then
                 var sf : ^straightFlush
                 new straightFlush, sf
-
+                sf -> setCards (pokerHandCheck)
+                if not setValues then
+                    highestPH := sf
+                    playerInt := i
+                elsif sf -> compare (highestPH) = 1 then
+                    highestPH := sf
+                end if
             end if
         end for
     end checkWin
