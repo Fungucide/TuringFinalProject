@@ -88,7 +88,7 @@ class deckOfCards
     % Add a card to the deck
     procedure push (c : ^card)
 	new cards, size + 1
-	cards (size+ 1 ) := c
+	cards (size + 1) := c
 	size += 1
     end push
 
@@ -147,7 +147,7 @@ class hand
     % Add a card to the hand
     procedure addCard (c : ^card)
 	new cards, size + 1
-	cards (size) := c
+	cards (size + 1) := c
 	size += 1
     end addCard
 
