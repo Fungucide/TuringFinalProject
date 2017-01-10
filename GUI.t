@@ -15,7 +15,8 @@ var font1 : int
 
 View.Set ("offscreeenonly")
 
-function getCardImage (int soit,value)
+function getCardImage (int suit,value)
+var imgName := value + suit + ".png"
 
 end getCardImage
 
