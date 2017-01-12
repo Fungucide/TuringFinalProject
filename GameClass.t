@@ -293,11 +293,18 @@ class game
 			    highestHand := players (i) -> cards
 			    new playerInt, 0
 			    playerInt (0) := i
-			elsif q -> compare (highestPH) = 0 then                        
-			    sort (playerHand)
+			elsif q -> compare (highestPH) = 0 then
 			    var highestCard : ^card
 			    new card, highestCard
-			    highestCard := playerHand (1)
+			    if allCards (upper (allCards)) -> value = allCards (startIndex) -> value then
+				highestCard := allCards (startIndex - 4)
+			    else
+				highestCard := allCards (upper (allCards))
+			    end if
+			    
+			    new pokerHandCheck,7
+			    
+			    
 			    highestHand -> getCards (playerHand)
 			    sort (playerHand)
 			    if highestCard -> compare (playerHand (1)) = 1 then
