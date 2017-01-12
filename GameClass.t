@@ -278,6 +278,7 @@ class game
 		    end if
 		end for
 
+		% If there is a quad check to see if it is the biggest
 		if count = 4 then
 		    var q : ^quad
 		    new quad, q
@@ -292,7 +293,7 @@ class game
 			    highestHand := players (i) -> cards
 			    new playerInt, 0
 			    playerInt (0) := i
-			elsif q -> compare (highestPH) = 0 then
+			elsif q -> compare (highestPH) = 0 then                        
 			    sort (playerHand)
 			    var highestCard : ^card
 			    new card, highestCard
