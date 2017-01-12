@@ -57,7 +57,7 @@ end player
 
 class game
 
-    import card, hand, sort, deckOfCards, player
+    import card, hand, sort, deckOfCards, player, pokerHand, straightFlush, quad, fullHouse, flush, straight, triple, twoPair, pair
 
     var dealPile : ^deckOfCards
     var burnPile : ^deckOfCards
@@ -130,19 +130,19 @@ class game
 	end for
 	if players (0) -> called and players (1) -> called and players (2) -> called and players (3) -> called then % when all players have called
 	    for i : 0 .. 3
-		players (i) -> uncall %all players uncall
+		players (i) -> uncall
 	    end for
 	    for i : 0 .. 3
-		pot += players (i) -> playerBet %put all money into pot
+		pot += players (i) -> playerBet
 		players (i) -> clearBet
 	    end for
-	elsif foldNum = 3 then % when all but one player fold
+	elsif foldNum = 3 then
 
 	    for i : 0 .. 3
-		players (i) -> uncall %all players uncall
+		players (i) -> uncall
 	    end for
 	    for i : 0 .. 3
-		pot += players (i) -> playerBet %put all money into pot
+		pot += players (i) -> playerBet
 		players (i) -> clearBet
 	    end for
 
@@ -153,11 +153,179 @@ class game
 	% Check using bfs : all possible pokerHands : all possible hands
 	var highestPH : ^pokerHand
 	var highestHand : ^hand
-	var playerInt : int
+	var playerInt : flexible array 0 .. -1 of int
+	var setValues := false
+	var flag := true
 
 	new pokerHand, highestPH
 	new hand, highestHand
 
+	% General Arrays for storing cards
+	var allCards : array 0 .. 6 of ^card
+	var pokerHandCheck : flexible array 0 .. -1 of ^card
+	var playerHand : array 0 .. 1 of ^card
+
+	% Variables for checking straightFlush or flush
+	var suitCount : array 1 .. 4 of int := init (0, 0, 0, 0)
+	var count : int := 0
+	var startIndex : int := -1
+	var previousValue := -1
+
+	% For every Player
+	for i : 0 .. 3
+
+	    % Make sure player has not folded
+	    if players (i) -> folded = true then
+
+		% Get Their cards and add them to all Cards
+		players (i) -> cards -> getCards (playerHand)
+		communityPile -> getCards (allCards)
+		allCards (5) := playerHand (0)
+		allCards (6) := playerHand (1)
+
+		% Flag to see if set found matching requirements
+		flag := true
+
+		% Sort the cards
+		sort (allCards)
+
+		% Go through the cards and look for flush first
+		for h : 0 .. 6
+		    suitCount (allCards (h) -> suit) += 1
+		end for
+
+		% Take the cards that have the same suit
+		for suit : 1 .. 4
+		    if suitCount (suit) >= 5 then
+			for h : 0 .. 6
+			    if allCards (h) -> suit = suit then
+				new pokerHandCheck, upper (pokerHandCheck) + 1
+				pokerHandCheck (upper (pokerHandCheck)) := allCards (h)
+				if allCards (h) -> value = 14 then
+				    var lowAce : ^card
+				    new card, lowAce
+				    lowAce -> setValues (1, allCards (h) -> suit)
+				    new pokerHandCheck, upper (pokerHandCheck) + 1
+				    pokerHandCheck (upper (pokerHandCheck)) := lowAce
+				end if
+			    end if
+			end for
+			exit
+		    else
+			flag := false
+		    end if
+		end for
+
+		% Check for a straight
+		if flag then
+		    sort (pokerHandCheck)
+		    flag := false
+		    for decreasing h : upper (pokerHandCheck) - 1 .. 0
+			if pokerHandCheck (h + 1) -> value - pokerHandCheck (h) -> value = 1 then
+			    count += 1
+			else
+			    count := 0
+			end if
+
+			if count = 5 then
+			    flag := true
+			    startIndex := h
+			    exit
+			end if
+		    end for
+		end if
+
+		% Check to see if it is the highest straight flush
+		if flag then
+		    var sf : ^straightFlush
+		    new straightFlush, sf
+		    var sfCards : array 0 .. 4 of ^card
+		    for h : 0 .. 4
+			sfCards (h) := pokerHandCheck (startIndex - h)
+		    end for
+		    sf -> setCards (sfCards)
+		    if setValues then
+			if sf -> compare (highestPH) = 1 then
+			    highestPH := sf
+			    highestHand := players (i) -> cards
+			    new playerInt, 0
+			    playerInt (0) := i
+			elsif sf -> compare (highestPH) = 0 then
+			    new playerInt, upper (playerInt) + 1
+			    playerInt (upper (playerInt)) := i
+			end if
+		    else
+			setValues := true
+			highestPH := sf
+			highestHand := players (i) -> cards
+			new playerInt, 0
+			playerInt (0) := i
+		    end if
+		end if
+
+		% Check for quad
+		for h : 0 .. 6
+		    if allCards (h) -> value = previousValue then
+			count += 1
+		    else
+			previousValue := allCards (h) -> value
+			count := 1
+		    end if
+
+		    if count = 4 then
+			startIndex := h
+			exit
+		    end if
+		end for
+
+		% If there is a quad check to see if it is the biggest
+		if count = 4 then
+		    var q : ^quad
+		    new quad, q
+		    var qCards : array 0 .. 3 of ^card
+		    for h : 0 .. 3
+			qCards (h) := allCards (startIndex - h)
+		    end for
+		    q -> setCards (qCards)
+		    if setValues then
+			if q -> compare (highestPH) = 1 then
+			    highestPH := q
+			    highestHand := players (i) -> cards
+			    new playerInt, 0
+			    playerInt (0) := i
+			elsif q -> compare (highestPH) = 0 then
+			    var highestCard : ^card
+			    new card, highestCard
+			    if allCards (upper (allCards)) -> value = allCards (startIndex) -> value then
+				highestCard := allCards (startIndex - 4)
+			    else
+				highestCard := allCards (upper (allCards))
+			    end if
+			    
+			    new pokerHandCheck,7
+			    
+			    
+			    highestHand -> getCards (playerHand)
+			    sort (playerHand)
+			    if highestCard -> compare (playerHand (1)) = 1 then
+				highestPH := q
+				highestHand := players (i) -> cards
+				new playerInt, 0
+				playerInt (0) := i
+			    end if
+			end if
+		    else
+			setValues := true
+			highestPH := q
+			highestHand := players (i) -> cards
+			new playerInt, 0
+			playerInt (0) := i
+		    end if
+		end if
+
+	    end if
+
+	end for
     end checkWin
 
 end game
