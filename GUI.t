@@ -14,6 +14,9 @@ winID := Window.Open ("position:0;200,graphics:1280;680")
 var font1 : int
 var image : int
 View.Set ("offscreeenonly")
+var backGround := Pic.FileNew ("table.jpg")
+backGround := Pic.Scale(backGround,1280,680)
+Pic.Draw(backGround,0,0,0)
 
 procedure getCardImage (value, suit, x, y, revealed, rotation : int)
     var imgName := "Cards/" + intstr (value) + intstr (suit) + ".gif"
@@ -39,12 +42,12 @@ function leftPad (input, leng : int) : string
 end leftPad
 
 var score1, score2, score3, score4, pot, bet : int
-score1 := 20
+score1 := 2000
 score2 := 2000
 score3 := 2000
 score4 := 2000
-pot := 4000
-bet := 300
+pot := 0
+bet := 0
 
 %player hand
 drawfillbox (525, 20, 625, 170, black)
@@ -78,3 +81,51 @@ Font.Draw ("Current bet: " + leftPad (bet, 4), 680, 400, font1, black)
 
 getCardImage (1, 1, 525, 20, 1, 0)
 getCardImage (12, 1, 675, 20, 1, 0)
+
+
+% start actial game testing
+
+
+include "GameClass.t"
+var testGame : ^game
+new game, testGame
+
+var see : array 0..1 of ^card 
+
+var cards : array 0 .. 51 of ^card
+
+for i : 0 .. 51
+    new card, cards (i)
+    cards (i) -> setValues (i mod 13 + 1, i div 13 + 1)
+end for
+testGame -> initialize (cards)
+% testGame -> dealPile -> listAll
+testGame -> dealPlayer
+testGame -> players(0)->cards->getCards(see)
+put(see(0)->value)
+put(see(0)->suit)
+put(see(1)->value)
+put(see(1)->suit)
+put("")
+
+testGame -> players(1)->cards->getCards(see)
+put(see(0)->value)
+put(see(0)->suit)
+put(see(1)->value)
+put(see(1)->suit)
+put("")
+
+testGame -> players(2)->cards->getCards(see)
+put(see(0)->value)
+put(see(0)->suit)
+put(see(1)->value)
+put(see(1)->suit)
+put("")
+
+testGame -> players(3)->cards->getCards(see)
+put(see(0)->value)
+put(see(0)->suit)
+put(see(1)->value)
+put(see(1)->suit)
+
+testGame->dealCommunity(3)
