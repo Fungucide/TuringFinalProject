@@ -58,6 +58,7 @@ end player
 class game
 
     import card, hand, sort, deckOfCards, player, pokerHand, straightFlush, quad, fullHouse, flush, straight, triple, twoPair, pair
+    export (dealPile, burnPile, communityPile, players, minBet, smallBlind, bigBlind, dealerPos, pot, initialize, dealPlayer, dealCommunity, call, raise, fold, allIn, endRound, checkWin)
 
     var dealPile : ^deckOfCards
     var burnPile : ^deckOfCards
@@ -485,7 +486,10 @@ class game
 		    if count = 5 then
 			flag := true
 
+			var s : ^straight
 			var sArray : array 0 .. 4 of ^card
+			new straight, s
+
 			pos := h
 			count := 0
 
@@ -497,6 +501,8 @@ class game
 			    end if
 			    exit when count = 5
 			end loop
+
+			s -> setCards (sArray)
 
 		    end if
 		end for
