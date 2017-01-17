@@ -170,6 +170,7 @@ class game
 	var count : int := 0
 	var startIndex : int := -1
 	var previousValue := -1
+	var pos : int
 
 	% For every Player
 	for i : 0 .. 3
@@ -253,11 +254,21 @@ class game
 		if flag then
 		    var sf : ^straightFlush
 		    new straightFlush, sf
-		    var sfCards : array 0 .. 4 of ^card
-		    for h : 0 .. 4
-			sfCards (h) := pokerHandCheck (startIndex - h)
-		    end for
-		    sf -> setCards (sfCards)
+		    var sfArray : array 0 .. 4 of ^card
+
+		    pos := startIndex
+		    count := 0
+
+		    loop
+			if upper (pokerHandCheck) = startIndex or pokerHandCheck (startIndex + 1) -> value - pokerHandCheck (startIndex) -> value = 1 then
+			    sfArray (count) := pokerHandCheck (pos)
+			    count += 1
+			    pos -= 1
+			end if
+			exit when count = 5
+		    end loop
+
+		    sf -> setCards (sfArray)
 		    if setValues then
 			if sf -> compare (highestPH) = 1 then
 			    highestPH := sf
@@ -433,8 +444,60 @@ class game
 				    fArray (j) := pokerHandCheck (j)
 				end for
 				f -> setCards (fArray)
+
+				if setValues then
+				    if f -> compare (highestPH) = 1 then
+					highestPH := f
+					highestHand := players (i) -> cards
+					new playerInt, 0
+					playerInt (0) := i
+				    elsif f -> compare (highestPH) = 0 then
+					new playerInt, upper (playerInt) + 1
+					playerInt (upper (playerInt)) := i
+				    end if
+				else
+				    setValues := true
+				    highestPH := f
+				    highestHand := players (i) -> cards
+				    new playerInt, 0
+				    playerInt (0) := i
+				end if
+				exit
+
 			    end if
 			end for
+		    end if
+		end for
+
+		% Check for straight
+		for decreasing h : upper (pokerHandCheck) - 1 .. 0
+		    % Check if the card next to it is one less
+		    if pokerHandCheck (h + 1) -> value - pokerHandCheck (h) -> value = 1 then
+			count += 1
+			% If card is same value then continue
+		    elsif pokerHandCheck (h + 1) -> value - pokerHandCheck (h) -> value = 0 then
+			% Else reset the counter
+		    else
+			count := 0
+		    end if
+
+		    % If five consecutive cards are found change flag
+		    if count = 5 then
+			flag := true
+
+			var sArray : array 0 .. 4 of ^card
+			pos := h
+			count := 0
+
+			loop
+			    if upper (allCards) = h or allCards (h + 1) -> value - allCards (h) -> value = 1 then
+				sArray (count) := allCards (pos)
+				count += 1
+				pos -= 1
+			    end if
+			    exit when count = 5
+			end loop
+
 		    end if
 		end for
 
