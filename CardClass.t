@@ -146,9 +146,9 @@ class hand
 
     % Add a card to the hand
     procedure addCard (c : ^card)
-	new cards, size + 1
-	cards (size) := c
 	size += 1
+	new cards, size
+	cards (size) := c
     end addCard
 
     % Remove all cards from hand
