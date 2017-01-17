@@ -150,7 +150,7 @@ class game
     end endRound
 
     function checkWin : int
-	% Check using bfs : all possible pokerHands : all possible hands
+	% Check using bf : all possible pokerHands : all possible hands
 	var highestPH : ^pokerHand
 	var highestHand : ^hand
 	var playerInt : flexible array 0 .. -1 of int
@@ -196,11 +196,16 @@ class game
 
 		% Take the cards that have the same suit
 		for suit : 1 .. 4
+		    % Check to see if there are five or more cards with the same suit
 		    if suitCount (suit) >= 5 then
+			% Iterate through all the cards
 			for h : 0 .. 6
+			    % If the card is the right suit take it
 			    if allCards (h) -> suit = suit then
+				% Increase the size of the check array
 				new pokerHandCheck, upper (pokerHandCheck) + 1
 				pokerHandCheck (upper (pokerHandCheck)) := allCards (h)
+				% If there is an ace add a low version of ace
 				if allCards (h) -> value = 14 then
 				    var lowAce : ^card
 				    new card, lowAce
@@ -212,21 +217,30 @@ class game
 			end for
 			exit
 		    else
+			% Flag saves checking time
 			flag := false
 		    end if
 		end for
 
 		% Check for a straight
 		if flag then
+		    % Sort the cards
 		    sort (pokerHandCheck)
+		    % Assume that there is no straight
 		    flag := false
+		    % Start from the highest card
 		    for decreasing h : upper (pokerHandCheck) - 1 .. 0
+			% Check if the card next to it is one less
 			if pokerHandCheck (h + 1) -> value - pokerHandCheck (h) -> value = 1 then
 			    count += 1
+			    % If card is same value then continue
+			elsif pokerHandCheck (h + 1) -> value - pokerHandCheck (h) -> value = 0 then
+			    % Else reset the counter
 			else
 			    count := 0
 			end if
 
+			% If five consecutive cards are found change flag
 			if count = 5 then
 			    flag := true
 			    startIndex := h
@@ -301,17 +315,23 @@ class game
 			    else
 				highestCard := allCards (upper (allCards))
 			    end if
-			    
-			    new pokerHandCheck,7
-			    
-			    
+
+			    new pokerHandCheck, 7
+			    communityPile -> getCards (pokerHandCheck)
 			    highestHand -> getCards (playerHand)
-			    sort (playerHand)
-			    if highestCard -> compare (playerHand (1)) = 1 then
+			    pokerHandCheck (5) := playerHand (0)
+			    pokerHandCheck (6) := playerHand (1)
+
+			    sort (pokerHandCheck)
+
+			    if highestCard -> compare (pokerHandCheck (upper (pokerHandCheck))) = 1 then
 				highestPH := q
 				highestHand := players (i) -> cards
 				new playerInt, 0
 				playerInt (0) := i
+			    elsif highestCard -> compare (pokerHandCheck (upper (pokerHandCheck))) = 0 then
+				new playerInt, upper (playerInt) + 1
+				playerInt (upper (playerInt)) := i
 			    end if
 			end if
 		    else
@@ -322,6 +342,102 @@ class game
 			playerInt (0) := i
 		    end if
 		end if
+
+		% Reset Flag variable
+		flag := false
+
+		% Check for Tripples
+		for h : 0 .. 6
+		    if allCards (h) -> value = previousValue then
+			count += 1
+		    else
+			previousValue := allCards (h) -> value
+			count := 1
+		    end if
+
+		    if count = 3 then
+			startIndex := h
+			flag := true
+			exit
+		    end if
+		end for
+
+		% Check for Doubles
+		for h : 0 .. 6
+		    if not flag then
+			exit
+		    elsif allCards (h) -> value = previousValue and allCards (h) -> value not= allCards (startIndex) -> value then
+			count += 1
+		    else
+			previousValue := allCards (h) -> value
+			count := 1
+		    end if
+
+		    if count = 2 then
+			var fh : ^fullHouse
+			var fhArray : array 0 .. 4 of ^card
+			new fullHouse, fh
+			new pokerHandCheck, 5
+
+			for j : 0 .. 2
+			    fhArray (j) := allCards (startIndex + j)
+			end for
+
+			for j : 0 .. 1
+			    fhArray (2 + j) := allCards (h + j)
+			end for
+
+			fh -> setCards (fhArray)
+
+			% Check to see if full house is biggest combo
+			if setValues then
+			    if fh -> compare (highestPH) = 1 then
+				highestPH := fh
+				highestHand := players (i) -> cards
+				new playerInt, 0
+				playerInt (0) := i
+			    elsif fh -> compare (highestPH) = 0 then
+				new playerInt, upper (playerInt) + 1
+				playerInt (upper (playerInt)) := i
+			    end if
+			else
+			    setValues := true
+			    highestPH := fh
+			    highestHand := players (i) -> cards
+			    new playerInt, 0
+			    playerInt (0) := i
+			end if
+			exit
+		    end if
+		end for
+
+		% Check for flush
+		for suit : 1 .. 4
+		    % Check to see if there are five or more cards with the same suit
+		    if suitCount (suit) >= 5 then
+			% Iterate through all the cards
+			for decreasing h : 6 .. 0
+			    % If the card is the right suit take it
+			    if allCards (h) -> suit = suit then
+				% Increase the size of the check array
+				new pokerHandCheck, upper (pokerHandCheck) + 1
+				pokerHandCheck (upper (pokerHandCheck)) := allCards (h)
+			    end if
+
+			    if upper (pokerHandCheck) = 4 then
+				% Set values of cards
+				var f : ^flush
+				var fArray : array 0 .. 4 of ^card
+				new flush, f
+				for j : 0 .. 4
+				    fArray (j) := pokerHandCheck (j)
+				end for
+				f -> setCards (fArray)
+			    end if
+			end for
+		    end if
+		end for
+
 
 	    end if
 
