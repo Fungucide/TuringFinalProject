@@ -504,6 +504,24 @@ class game
 
 			s -> setCards (sArray)
 
+			if setValues then
+			    if s -> compare (highestPH) = 1 then
+				highestPH := s
+				highestHand := players (i) -> cards
+				new playerInt, 0
+				playerInt (0) := i
+			    elsif s -> compare (highestPH) = 0 then
+				new playerInt, upper (playerInt) + 1
+				playerInt (upper (playerInt)) := i
+			    end if
+			else
+			    setValues := true
+			    highestPH := s
+			    highestHand := players (i) -> cards
+			    new playerInt, 0
+			    playerInt (0) := i
+			end if
+
 		    end if
 		end for
 
