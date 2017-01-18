@@ -327,14 +327,15 @@ loop
 
     put ""
     put testGame -> checkWin
+    var temp : ^card
     loop
-	testGame -> dealPile -> pop
+	temp := testGame -> dealPile -> pop
 	exit when testGame -> dealPile -> size = -1
     end loop
 
     loop
-	testGame -> burnFile -> pop
-	exit when testGame -> burnFile -> size = -1
+	temp := testGame -> burnPile -> pop
+	exit when testGame -> burnPile -> size = -1
     end loop
 
     testGame -> communityPile -> clearHand
