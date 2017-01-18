@@ -83,6 +83,10 @@ class game
 	end for
     end initialize
 
+    procedure setDeck (c : array0 .. * of ^card)
+
+    end setDeck
+
     procedure dealPlayer
 	for n : 0 .. 3
 	    players (n) -> cards -> addCard (dealPile -> pop)
