@@ -58,13 +58,12 @@ end player
 class game
 
     import card, hand, sort, deckOfCards, player, pokerHand, straightFlush, quad, fullHouse, flush, straight, triple, twoPair, pair
-    export (dealPile, burnPile, communityPile, players, minBet, smallBlind, bigBlind, dealerPos, pot, initialize, dealPlayer, dealCommunity, call, raise, fold, allIn, endRound, checkWin)
+    export (dealPile, burnPile, communityPile, players, smallBlind, bigBlind, dealerPos, pot, initialize, dealPlayer, dealCommunity, call, raise, fold, allIn, endRound, checkWin)
 
     var dealPile : ^deckOfCards
     var burnPile : ^deckOfCards
     var communityPile : ^hand
     var players : array 0 .. 3 of ^player
-    var minBet : int := 100
     var smallBlind : boolean := true
     var bigBlind : boolean := true
     var dealerPos : int := Rand.Int (0, 3)
@@ -108,7 +107,10 @@ class game
     end call
 
     procedure raise (n, a : int)
-	players (n) -> bet (a)
+	call (n)
+	if players (n) -> points > a then
+	    players (n) -> bet (a)
+	end if
 	for i : 0 .. 3
 	    players (n) -> uncall
 	end for
@@ -122,14 +124,14 @@ class game
 	players (n) -> bet (players (n) -> points)
     end allIn
 
-    procedure endRound
+    function endRound : boolean
 	var foldNum := 0
 	for i : 0 .. 3
 	    if players (i) -> folded then
 		foldNum += 1
 	    end if
 	end for
-	if players (0) -> called and players (1) -> called and players (2) -> called and players (3) -> called then % when all players have called
+	if players (0) -> called and players (1) -> called and players (2) -> called and players (3) -> called then     % when all players have called
 	    for i : 0 .. 3
 		players (i) -> uncall
 	    end for
@@ -137,6 +139,7 @@ class game
 		pot += players (i) -> playerBet
 		players (i) -> clearBet
 	    end for
+	    result true
 	elsif foldNum = 3 then
 
 	    for i : 0 .. 3
@@ -146,8 +149,9 @@ class game
 		pot += players (i) -> playerBet
 		players (i) -> clearBet
 	    end for
-
+	    result true
 	end if
+	result false
     end endRound
 
     function checkWin : int
