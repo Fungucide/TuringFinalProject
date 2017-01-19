@@ -20,15 +20,17 @@ Font.Draw ("Instructions", 590, 260, font, black)
 Font.Draw ("Exit", 625, 160, font, black)
 
 var x, y, btnNumber, btnUpDown, buttons : int
+
+
 loop
 Mouse.ButtonWait ("down", x, y, btnNumber, btnUpDown)
-
 if 575 < x and x < 725 and 350 < y  and y < 400 then
-    include "GUI.t"
+    exit when true
 elsif 575 < x and x < 725 and 250 < y and y < 300 then
 
 elsif 575 < x and x < 725 and 150 < y and y < 200 then
     Window.Close(wind)
 end if
-
 end loop
+include "GUI.t"
+Window.Close(wind)
