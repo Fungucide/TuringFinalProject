@@ -158,7 +158,7 @@ class game
 	result false
     end endRound
 
-    function checkWin : int
+    function checkWin : array 0..3 of boolean
 	% Check using bf : all possible pokerHands : all possible hands
 	var highestPH : ^pokerHand
 	var highestHand : ^hand
@@ -618,7 +618,7 @@ class game
 		    end if
 		end for
 
-		% If there is a tripple check to see if it is the biggest
+		% If there is a double check to see if it is the biggest
 		if count = 2 then
 		    var p : ^pair
 		    new pair, p
@@ -668,6 +668,76 @@ class game
 			playerInt (0) := i
 		    end if
 		end if
+
+		% Check for triple
+		previousValue := -1
+		for h : 0 .. 6
+		    if allCards (h) -> value = previousValue then
+			count += 1
+		    else
+			previousValue := allCards (h) -> value
+			count := 1
+		    end if
+
+		    if count = 3 then
+			startIndex := h
+			exit
+		    end if
+		end for
+
+		% If there is a triple check to see if it is the biggest
+		if count = 3 then
+		    var p : ^pair
+		    new pair, p
+		    var pArray : array 0 .. 1 of ^card
+		    for h : 0 .. 1
+			pArray (h) := allCards (startIndex - h)
+		    end for
+		    p -> setCards (pArray)
+		    if setValues then
+			if p -> compare (highestPH) = 1 then
+			    highestPH := p
+			    highestHand := players (i) -> cards
+			    new playerInt, 0
+			    playerInt (0) := i
+			elsif p -> compare (highestPH) = 0 then
+			    var highestCard : ^card
+			    new card, highestCard
+			    if allCards (upper (allCards)) -> value = allCards (startIndex) -> value then
+				highestCard := allCards (startIndex - 3)
+			    else
+				highestCard := allCards (upper (allCards))
+			    end if
+
+			    new pokerHandCheck, 7
+			    communityPile -> getCards (pokerHandCheck)
+			    highestHand -> getCards (playerHand)
+			    pokerHandCheck (5) := playerHand (0)
+			    pokerHandCheck (6) := playerHand (1)
+
+			    sort (pokerHandCheck)
+
+			    if highestCard -> compare (pokerHandCheck (upper (pokerHandCheck))) = 1 then
+				highestPH := p
+				highestHand := players (i) -> cards
+				new playerInt, 0
+				playerInt (0) := i
+			    elsif highestCard -> compare (pokerHandCheck (upper (pokerHandCheck))) = 0 then
+				new playerInt, upper (playerInt) + 1
+				playerInt (upper (playerInt)) := i
+			    end if
+			end if
+		    else ass
+			setValues := true
+			highestPH := p
+			highestHand := players (i) -> cards
+			new playerInt, 0
+			playerInt (0) := i
+		    end if
+		end if
+
+
+
 
 	    end if
 
