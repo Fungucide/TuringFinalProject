@@ -83,7 +83,7 @@ class game
 	end for
     end initialize
 
-    procedure setDeck (c : array0 .. * of ^card)
+    procedure setDeck (c : array 0 .. * of ^card)
 
     end setDeck
 
