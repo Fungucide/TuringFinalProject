@@ -17,12 +17,17 @@ View.Set ("offscreeenonly")
 var backGround := Pic.FileNew ("table.jpg")
 backGround := Pic.Scale (backGround, 1280, 680)
 Pic.Draw (backGround, 0, 0, 0)
+var x, y, btnNumber, btnUpDown, buttons : int
+
+
+
+
 
 procedure getCardImage (value, suit, x, y, revealed, rotation : int)
     var imgName := "Cards/" + intstr (value) + intstr (suit) + ".gif"
     %put(imgName)
 
-    if revealed = 1 then
+    if revealed = 0 then
 	image := Pic.FileNew (imgName)
     else
 	image := Pic.FileNew ("backOfCard.gif")
@@ -91,9 +96,9 @@ end for
 
 % buttons
 drawfillbox (800, 20, 1000, 70, grey)
-drawfillbox (1010, 20, 1220, 70, grey)
+drawfillbox (1010, 20, 1210, 70, grey)
 drawfillbox (800, 100, 1000, 150, grey)
-drawfillbox (1010, 100, 1220, 150, grey)
+drawfillbox (1010, 100, 1210, 150, grey)
 
 testGame -> initialize (cards)
 
@@ -138,12 +143,28 @@ loop
 
     testGame -> dealCommunity (3)
 
+
+    testGame -> players (0) -> cards -> getCards (see)
+    getCardImage (see (0) -> value, see (0) -> suit, 525, 20, 1, 0)
+    getCardImage (see (1) -> value, see (1) -> suit, 675, 20, 1, 0)
+    testGame -> players (1) -> cards -> getCards (see)
+    getCardImage (see (0) -> value, see (0) -> suit, 1110, 225, 1, 3)
+    getCardImage (see (1) -> value, see (1) -> suit, 1110, 375, 1, 3)
+    testGame -> players (2) -> cards -> getCards (see)
+    getCardImage (see (0) -> value, see (0) -> suit, 525, 510, 1, 2)
+    getCardImage (see (1) -> value, see (1) -> suit, 675, 510, 1, 2)
+    testGame -> players (3) -> cards -> getCards (see)
+    getCardImage (see (0) -> value, see (0) -> suit, 220, 225, 1, 1)
+    getCardImage (see (1) -> value, see (1) -> suit, 220, 375, 1, 1)
+
+
+
     var community : array 0 .. 4 of ^card
     % show community pile
     testGame -> communityPile -> getCards (community)
-    getCardImage (community (0) -> value, community (0) -> suit, 360, 230, 1, 0)
-    getCardImage (community (1) -> value, community (1) -> suit, 480, 230, 1, 0)
-    getCardImage (community (2) -> value, community (2) -> suit, 600, 230, 1, 0)
+    getCardImage (community (0) -> value, community (0) -> suit, 360, 230, 0, 0)
+    getCardImage (community (1) -> value, community (1) -> suit, 480, 230, 0, 0)
+    getCardImage (community (2) -> value, community (2) -> suit, 600, 230, 0, 0)
 
 
     var op : int
@@ -173,7 +194,36 @@ loop
     % round 1
     loop
 	if testGame -> players (p) -> folded = false then
-	    get op
+	    testGame -> players (0) -> cards -> getCards (see)
+	    getCardImage (see (0) -> value, see (0) -> suit, 525, 20, p, 0)
+	    getCardImage (see (1) -> value, see (1) -> suit, 675, 20, p, 0)
+	    testGame -> players (1) -> cards -> getCards (see)
+	    getCardImage (see (0) -> value, see (0) -> suit, 1110, 225, p - 1, 3)
+	    getCardImage (see (1) -> value, see (1) -> suit, 1110, 375, p - 1, 3)
+	    testGame -> players (2) -> cards -> getCards (see)
+	    getCardImage (see (0) -> value, see (0) -> suit, 525, 510, p - 2, 2)
+	    getCardImage (see (1) -> value, see (1) -> suit, 675, 510, p - 2, 2)
+	    testGame -> players (3) -> cards -> getCards (see)
+	    getCardImage (see (0) -> value, see (0) -> suit, 220, 225, p - 3, 1)
+	    getCardImage (see (1) -> value, see (1) -> suit, 220, 375, p - 3, 1)
+
+	    loop
+		Mouse.ButtonWait ("down", x, y, btnNumber, btnUpDown)
+		if 800 < x and x < 1000 and 100 < y and y < 150 then
+		    op := 1
+		    exit when true
+		elsif 1010 < x and x < 1210 and 100 < y and y < 150 then
+		    op := 2
+		    exit when true
+		elsif 800 < x and x < 1000 and 20 < y and y < 70 then
+		    op := 3
+		    exit when true
+		elsif 1010 < x and x < 1210 and 20 < y and y < 70 then
+		    op := 4
+		    exit when true
+		end if
+	    end loop
+
 	    if op = 1 then
 		testGame -> call (p)
 	    elsif op = 2 then
@@ -184,6 +234,7 @@ loop
 		testGame -> fold (p)
 	    elsif op = 4 then
 		testGame -> allIn (p)
+		b := testGame -> players (p) -> playerBet
 	    end if
 	end if
 	p := p + 1
@@ -221,12 +272,41 @@ loop
 
     testGame -> dealCommunity (1)
     testGame -> communityPile -> getCards (community)
-    getCardImage (community (3) -> value, community (3) -> suit, 720, 230, 1, 0)
+    getCardImage (community (3) -> value, community (3) -> suit, 720, 230, 0, 0)
 
     % round 2
     loop
 	if testGame -> players (p) -> folded = false then
-	    get op
+	    testGame -> players (0) -> cards -> getCards (see)
+	    getCardImage (see (0) -> value, see (0) -> suit, 525, 20, p, 0)
+	    getCardImage (see (1) -> value, see (1) -> suit, 675, 20, p, 0)
+	    testGame -> players (1) -> cards -> getCards (see)
+	    getCardImage (see (0) -> value, see (0) -> suit, 1110, 225, p - 1, 3)
+	    getCardImage (see (1) -> value, see (1) -> suit, 1110, 375, p - 1, 3)
+	    testGame -> players (2) -> cards -> getCards (see)
+	    getCardImage (see (0) -> value, see (0) -> suit, 525, 510, p - 2, 2)
+	    getCardImage (see (1) -> value, see (1) -> suit, 675, 510, p - 2, 2)
+	    testGame -> players (3) -> cards -> getCards (see)
+	    getCardImage (see (0) -> value, see (0) -> suit, 220, 225, p - 3, 1)
+	    getCardImage (see (1) -> value, see (1) -> suit, 220, 375, p - 3, 1)
+
+	    loop
+		Mouse.ButtonWait ("down", x, y, btnNumber, btnUpDown)
+		if 800 < x and x < 1000 and 100 < y and y < 150 then
+		    op := 1
+		    exit when true
+		elsif 1010 < x and x < 1210 and 100 < y and y < 150 then
+		    op := 2
+		    exit when true
+		elsif 800 < x and x < 1000 and 20 < y and y < 70 then
+		    op := 3
+		    exit when true
+		elsif 1010 < x and x < 1210 and 20 < y and y < 70 then
+		    op := 4
+		    exit when true
+		end if
+	    end loop
+
 	    if op = 1 then
 		testGame -> call (p)
 	    elsif op = 2 then
@@ -274,12 +354,41 @@ loop
 
     testGame -> dealCommunity (1)
     testGame -> communityPile -> getCards (community)
-    getCardImage (community (4) -> value, community (4) -> suit, 840, 230, 1, 0)
+    getCardImage (community (4) -> value, community (4) -> suit, 840, 230, 0, 0)
 
     % round 3
     loop
 	if testGame -> players (p) -> folded = false then
-	    get op
+	    testGame -> players (0) -> cards -> getCards (see)
+	    getCardImage (see (0) -> value, see (0) -> suit, 525, 20, p, 0)
+	    getCardImage (see (1) -> value, see (1) -> suit, 675, 20, p, 0)
+	    testGame -> players (1) -> cards -> getCards (see)
+	    getCardImage (see (0) -> value, see (0) -> suit, 1110, 225, p - 1, 3)
+	    getCardImage (see (1) -> value, see (1) -> suit, 1110, 375, p - 1, 3)
+	    testGame -> players (2) -> cards -> getCards (see)
+	    getCardImage (see (0) -> value, see (0) -> suit, 525, 510, p - 2, 2)
+	    getCardImage (see (1) -> value, see (1) -> suit, 675, 510, p - 2, 2)
+	    testGame -> players (3) -> cards -> getCards (see)
+	    getCardImage (see (0) -> value, see (0) -> suit, 220, 225, p - 3, 1)
+	    getCardImage (see (1) -> value, see (1) -> suit, 220, 375, p - 3, 1)
+
+	    loop
+		Mouse.ButtonWait ("down", x, y, btnNumber, btnUpDown)
+		if 800 < x and x < 1000 and 100 < y and y < 150 then
+		    op := 1
+		    exit when true
+		elsif 1010 < x and x < 1210 and 100 < y and y < 150 then
+		    op := 2
+		    exit when true
+		elsif 800 < x and x < 1000 and 20 < y and y < 70 then
+		    op := 3
+		    exit when true
+		elsif 1010 < x and x < 1210 and 20 < y and y < 70 then
+		    op := 4
+		    exit when true
+		end if
+	    end loop
+
 	    if op = 1 then
 		testGame -> call (p)
 	    elsif op = 2 then
@@ -328,6 +437,19 @@ loop
     var win : array 0 .. 3 of boolean
     win := testGame -> checkWin
 
+    testGame -> players (0) -> cards -> getCards (see)
+    getCardImage (see (0) -> value, see (0) -> suit, 525, 20, 0, 0)
+    getCardImage (see (1) -> value, see (1) -> suit, 675, 20, 0, 0)
+    testGame -> players (1) -> cards -> getCards (see)
+    getCardImage (see (0) -> value, see (0) -> suit, 1110, 225, 0, 3)
+    getCardImage (see (1) -> value, see (1) -> suit, 1110, 375, 0, 3)
+    testGame -> players (2) -> cards -> getCards (see)
+    getCardImage (see (0) -> value, see (0) -> suit, 525, 510, 0, 2)
+    getCardImage (see (1) -> value, see (1) -> suit, 675, 510, 0, 2)
+    testGame -> players (3) -> cards -> getCards (see)
+    getCardImage (see (0) -> value, see (0) -> suit, 220, 225, 0, 1)
+    getCardImage (see (1) -> value, see (1) -> suit, 220, 375, 0, 1)
+
     for i : 0 .. 3
 	if win (i) then
 	    put i, " WIN"
@@ -335,7 +457,9 @@ loop
 	    put i, " LOSE"
 	end if
     end for
+
     Input.Pause
+
     var temp : ^card
 
     loop
