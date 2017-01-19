@@ -139,21 +139,11 @@ class game
     function endRound : boolean
 	var foldNum := 0
 	for i : 0 .. 3
-	    if players (i) -> folded then
+	    if players (i) -> folded or players (i) -> called then
 		foldNum += 1
 	    end if
 	end for
-	if players (0) -> called and players (1) -> called and players (2) -> called and players (3) -> called then     % when all players have called
-	    for i : 0 .. 3
-		players (i) -> uncall
-	    end for
-	    for i : 0 .. 3
-		pot += players (i) -> playerBet
-		players (i) -> clearBet
-	    end for
-	    result true
-	elsif foldNum = 3 then
-
+	if foldNum = 4 then
 	    for i : 0 .. 3
 		players (i) -> uncall
 	    end for
