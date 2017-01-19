@@ -158,7 +158,7 @@ class game
 	result false
     end endRound
 
-    function checkWin : array 0..3 of boolean
+    function checkWin : array 0 .. 3 of boolean
 	% Check using bf : all possible pokerHands : all possible hands
 	var highestPH : ^pokerHand
 	var highestHand : ^hand
@@ -727,7 +727,8 @@ class game
 				playerInt (upper (playerInt)) := i
 			    end if
 			end if
-		    else ass
+		    else
+			ass
 			setValues := true
 			highestPH := p
 			highestHand := players (i) -> cards
@@ -742,6 +743,14 @@ class game
 	    end if
 
 	end for
+
+	var booleanWin : array 0 .. 3 of boolean
+	for i : 0 .. upper (playerInt)
+	    boolenWind (playerInt (i)) := true
+	end for
+	
+	return booleanWin
+
     end checkWin
 
 end game
