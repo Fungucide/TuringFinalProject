@@ -133,8 +133,8 @@ loop
     %put(see(0)->suit)
     %put(see(1)->value)
     %put(see(1)->suit)
-    getCardImage (see (0) -> value, see (0) -> suit, 20, 225, 1, 1)
-    getCardImage (see (1) -> value, see (1) -> suit, 20, 375, 1, 1)
+    getCardImage (see (0) -> value, see (0) -> suit, 220, 225, 1, 1)
+    getCardImage (see (1) -> value, see (1) -> suit, 220, 375, 1, 1)
 
     testGame -> dealCommunity (3)
 
@@ -325,13 +325,18 @@ loop
     Font.Draw ("Pot: " + leftPad (testGame -> pot, 4), 480, 400, font1, white)
     Font.Draw ("Current points: " + leftPad (b, 4), 680, 400, font1, white)
 
-    put ""
-    put testGame -> checkWin
+    var win : array 0 .. 3 of boolean
+    win := testGame -> checkWin
+
+    for i : 0 .. 3
+	if win (i) then
+	    put i, " WIN"
+	else
+	    put i, " LOSE"
+	end if
+    end for
+    Input.Pause
     var temp : ^card
-    loop
-	temp := testGame -> dealPile -> pop
-	exit when testGame -> dealPile -> size = -1
-    end loop
 
     loop
 	temp := testGame -> burnPile -> pop
@@ -343,5 +348,6 @@ loop
     testGame -> players (1) -> cards -> clearHand
     testGame -> players (2) -> cards -> clearHand
     testGame -> players (3) -> cards -> clearHand
+    testGame -> setDeck (cards)
     pause (1000)
 end loop

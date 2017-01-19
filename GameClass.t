@@ -58,7 +58,7 @@ end player
 class game
 
     import card, hand, sort, deckOfCards, player, pokerHand, straightFlush, quad, fullHouse, flush, straight, triple, twoPair, pair
-    export (dealPile, burnPile, communityPile, players, smallBlind, bigBlind, dealerPos, pot, initialize, dealPlayer, dealCommunity, call, raise, fold, allIn, endRound, checkWin)
+    export (dealPile, burnPile, communityPile, players, smallBlind, bigBlind, dealerPos, pot, initialize, dealPlayer, dealCommunity, call, raise, fold, allIn, endRound, checkWin, setDeck)
 
     var dealPile : ^deckOfCards
     var burnPile : ^deckOfCards
@@ -84,7 +84,15 @@ class game
     end initialize
 
     procedure setDeck (c : array 0 .. * of ^card)
-
+	var temp : ^card
+	loop
+	    temp := dealPile -> pop
+	    exit when dealPile -> size = -1
+	end loop
+	for i : 0 .. upper (c)
+	    dealPile -> push (c (i))
+	end for
+	dealPile -> shuffle
     end setDeck
 
     procedure dealPlayer
@@ -185,7 +193,7 @@ class game
 	for i : 0 .. 3
 
 	    % Make sure player has not folded
-	    if players (i) -> folded = true then
+	    if players (i) -> folded = false then
 
 		% Get Their cards and add them to all Cards
 		players (i) -> cards -> getCards (playerHand)
@@ -203,6 +211,8 @@ class game
 		for h : 0 .. 6
 		    suitCount (allCards (h) -> suit) += 1
 		end for
+
+		% put "StraightFlush ", i
 
 		% Take the cards that have the same suit
 		for suit : 1 .. 4
@@ -261,6 +271,7 @@ class game
 
 		% Check to see if it is the highest straight flush
 		if flag then
+		    % put "True"
 		    var sf : ^straightFlush
 		    new straightFlush, sf
 		    var sfArray : array 0 .. 4 of ^card
@@ -298,9 +309,13 @@ class game
 		end if
 
 		% Check for quad
+		count := 0
+		previousValue := -1
+		% put "Quad ", i
 		for h : 0 .. 6
 		    if allCards (h) -> value = previousValue then
 			count += 1
+			% put allCards(h)->value
 		    else
 			previousValue := allCards (h) -> value
 			count := 1
@@ -314,10 +329,12 @@ class game
 
 		% If there is a quad check to see if it is the biggest
 		if count = 4 then
+		    % put "True"
 		    var q : ^quad
 		    new quad, q
 		    var qCards : array 0 .. 3 of ^card
 		    for h : 0 .. 3
+			%% put #allCards (startIndex - h), " ", startIndex, " ", h
 			qCards (h) := allCards (startIndex - h)
 		    end for
 		    q -> setCards (qCards)
@@ -366,7 +383,10 @@ class game
 		% Reset Flag variable
 		flag := false
 
+		% put "Triple ", i
 		% Check for Tripples
+		count := 0
+		previousValue := -1
 		for h : 0 .. 6
 		    if allCards (h) -> value = previousValue then
 			count += 1
@@ -383,6 +403,8 @@ class game
 		end for
 
 		% Check for Doubles
+		count := 0
+		previousValue := -1
 		for h : 0 .. 6
 		    if not flag then
 			exit
@@ -394,6 +416,7 @@ class game
 		    end if
 
 		    if count = 2 then
+			% put "True"
 			var fh : ^fullHouse
 			var fhArray : array 0 .. 4 of ^card
 			new fullHouse, fh
@@ -431,6 +454,7 @@ class game
 		    end if
 		end for
 
+		% put "Flush ", i
 		% Check for flush
 		for suit : 1 .. 4
 		    % Check to see if there are five or more cards with the same suit
@@ -446,6 +470,7 @@ class game
 
 			    if upper (pokerHandCheck) = 4 then
 				% Set values of cards
+				% put "True"
 				var f : ^flush
 				var fArray : array 0 .. 4 of ^card
 				new flush, f
@@ -478,13 +503,14 @@ class game
 		    end if
 		end for
 
+		% put "Straight ", i
 		% Check for straight
-		for decreasing h : upper (pokerHandCheck) - 1 .. 0
+		for decreasing h : upper (allCards) - 1 .. 0
 		    % Check if the card next to it is one less
-		    if pokerHandCheck (h + 1) -> value - pokerHandCheck (h) -> value = 1 then
+		    if allCards (h + 1) -> value -allCards (h) -> value = 1 then
 			count += 1
 			% If card is same value then continue
-		    elsif pokerHandCheck (h + 1) -> value - pokerHandCheck (h) -> value = 0 then
+		    elsif allCards (h + 1) -> value - allCards  (h) -> value = 0 then
 			% Else reset the counter
 		    else
 			count := 0
@@ -495,6 +521,7 @@ class game
 			flag := true
 
 			var s : ^straight
+			% put "True"
 			var sArray : array 0 .. 4 of ^card
 			new straight, s
 
@@ -533,7 +560,9 @@ class game
 		    end if
 		end for
 
+		% put "Triple ", i
 		% Check for tripple
+		count := 0
 		previousValue := -1
 		for h : 0 .. 6
 		    if allCards (h) -> value = previousValue then
@@ -551,6 +580,7 @@ class game
 
 		% If there is a tripple check to see if it is the biggest
 		if count = 3 then
+		    % put "true"
 		    var t : ^triple
 		    new triple, t
 		    var tArray : array 0 .. 2 of ^card
@@ -601,8 +631,9 @@ class game
 		end if
 
 
-
-		% Check for double
+		% put "Pair ", i
+		% Check for pair
+		count := 0
 		previousValue := -1
 		for h : 0 .. 6
 		    if allCards (h) -> value = previousValue then
@@ -620,6 +651,7 @@ class game
 
 		% If there is a double check to see if it is the biggest
 		if count = 2 then
+		    % put "True"
 		    var p : ^pair
 		    new pair, p
 		    var pArray : array 0 .. 1 of ^card
@@ -669,87 +701,21 @@ class game
 		    end if
 		end if
 
-		% Check for triple
-		previousValue := -1
-		for h : 0 .. 6
-		    if allCards (h) -> value = previousValue then
-			count += 1
-		    else
-			previousValue := allCards (h) -> value
-			count := 1
-		    end if
-
-		    if count = 3 then
-			startIndex := h
-			exit
-		    end if
-		end for
-
-		% If there is a triple check to see if it is the biggest
-		if count = 3 then
-		    var p : ^pair
-		    new pair, p
-		    var pArray : array 0 .. 1 of ^card
-		    for h : 0 .. 1
-			pArray (h) := allCards (startIndex - h)
-		    end for
-		    p -> setCards (pArray)
-		    if setValues then
-			if p -> compare (highestPH) = 1 then
-			    highestPH := p
-			    highestHand := players (i) -> cards
-			    new playerInt, 0
-			    playerInt (0) := i
-			elsif p -> compare (highestPH) = 0 then
-			    var highestCard : ^card
-			    new card, highestCard
-			    if allCards (upper (allCards)) -> value = allCards (startIndex) -> value then
-				highestCard := allCards (startIndex - 3)
-			    else
-				highestCard := allCards (upper (allCards))
-			    end if
-
-			    new pokerHandCheck, 7
-			    communityPile -> getCards (pokerHandCheck)
-			    highestHand -> getCards (playerHand)
-			    pokerHandCheck (5) := playerHand (0)
-			    pokerHandCheck (6) := playerHand (1)
-
-			    sort (pokerHandCheck)
-
-			    if highestCard -> compare (pokerHandCheck (upper (pokerHandCheck))) = 1 then
-				highestPH := p
-				highestHand := players (i) -> cards
-				new playerInt, 0
-				playerInt (0) := i
-			    elsif highestCard -> compare (pokerHandCheck (upper (pokerHandCheck))) = 0 then
-				new playerInt, upper (playerInt) + 1
-				playerInt (upper (playerInt)) := i
-			    end if
-			end if
-		    else
-			ass
-			setValues := true
-			highestPH := p
-			highestHand := players (i) -> cards
-			new playerInt, 0
-			playerInt (0) := i
-		    end if
-		end if
-
-
-
 
 	    end if
 
 	end for
 
 	var booleanWin : array 0 .. 3 of boolean
-	for i : 0 .. upper (playerInt)
-	    boolenWind (playerInt (i)) := true
+	for i : 0 .. 3
+	    booleanWin (i) := false
 	end for
-	
-	return booleanWin
+	for i : 0 .. upper (playerInt)
+	   % put "wins: ", playerInt (i)
+	    booleanWin (playerInt (i)) := true
+	end for
+
+	result booleanWin
 
     end checkWin
 
