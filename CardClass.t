@@ -168,6 +168,11 @@ end hand
 % A way to sort cards
 procedure sort (var c : array 0 .. * of ^card)
 
+    for i : 0 .. upper (c)
+	%put "v: ", c (i) -> value
+	%put "s: ", c (i) -> suit
+    end for
+
     % If array is one element long it is sorted
     if upper (c) < 1 then
 	return
@@ -185,7 +190,6 @@ procedure sort (var c : array 0 .. * of ^card)
 	fs := upper (c) div 2 - 1
 	ss := upper (c) div 2
     end if
-    put "Fs: ", fs, " Ss:", ss
 
     % Make arrays to store first and second part of the whole array
     var f : array 0 .. fs of ^card
@@ -194,13 +198,11 @@ procedure sort (var c : array 0 .. * of ^card)
     % Set values of first array
     for i : 0 .. fs
 	f (i) := c (i)
-	put "Fs: i:", i, " v:", c (i) -> value, " s:", c (i) -> suit
     end for
 
     % Set values of second array
     for i : fs + 1 .. upper (c)
 	s (i - fs - 1) := c (i)
-	put "Ss: i:", i, " v:", c (i) -> value, " s:", c (i) -> suit
     end for
 
     % Sort the arrays

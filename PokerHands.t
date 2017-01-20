@@ -14,7 +14,6 @@
 % NOTE: Need to be careful for high or low ace
 
 include "CardClass.t"
-
 class pokerHand
 
     import card, sort

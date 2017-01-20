@@ -8,15 +8,11 @@
 % Dec 21, 2016
 % - figuring out position for all cards
 % ---------------------
-
-var winID : int
-winID := Window.Open ("position:0;200,graphics:1280;680")
 var font1 : int
 var image : int
 View.Set ("offscreeenonly")
 var backGround := Pic.FileNew ("table.jpg")
 backGround := Pic.Scale (backGround, 1280, 680)
-Pic.Draw (backGround, 0, 0, 0)
 var x, y, btnNumber, btnUpDown, buttons : int
 
 
