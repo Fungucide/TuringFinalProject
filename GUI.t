@@ -95,10 +95,7 @@ for i : 0 .. 51
 end for
 
 % buttons
-drawfillbox (800, 20, 1000, 70, grey)
-drawfillbox (1010, 20, 1210, 70, grey)
-drawfillbox (800, 100, 1000, 150, grey)
-drawfillbox (1010, 100, 1210, 150, grey)
+
 
 testGame -> initialize (cards)
 
@@ -194,6 +191,16 @@ loop
     % round 1
     loop
 	if testGame -> players (p) -> folded = false then
+
+	    drawfillbox (800, 20, 1000, 70, grey)
+	    drawfillbox (1010, 20, 1210, 70, grey)
+	    drawfillbox (800, 100, 1000, 150, grey)
+	    drawfillbox (1010, 100, 1210, 150, grey)
+	    Font.Draw ("Call", 875, 110, font1, black)
+	    Font.Draw ("Raise", 1075, 110, font1, black)
+	    Font.Draw ("Fold", 875, 30, font1, black)
+	    Font.Draw ("All-in", 1075, 30, font1, black)
+
 	    testGame -> players (0) -> cards -> getCards (see)
 	    getCardImage (see (0) -> value, see (0) -> suit, 525, 20, p, 0)
 	    getCardImage (see (1) -> value, see (1) -> suit, 675, 20, p, 0)
@@ -227,6 +234,16 @@ loop
 	    if op = 1 then
 		testGame -> call (p)
 	    elsif op = 2 then
+
+		drawfillbox (800, 20, 1000, 70, grey)
+		drawfillbox (1010, 20, 1210, 70, grey)
+		drawfillbox (800, 100, 1000, 150, grey)
+		drawfillbox (1010, 100, 1210, 150, grey)
+		Font.Draw ("$100", 875, 110, font1, black)
+		Font.Draw ("$200", 1075, 110, font1, black)
+		Font.Draw ("$300", 875, 30, font1, black)
+		Font.Draw ("$400", 1075, 30, font1, black)
+
 		loop
 		    Mouse.ButtonWait ("down", x, y, btnNumber, btnUpDown)
 		    if 800 < x and x < 1000 and 100 < y and y < 150 then
@@ -243,6 +260,15 @@ loop
 			exit when true
 		    end if
 		end loop
+
+		drawfillbox (800, 20, 1000, 70, grey)
+		drawfillbox (1010, 20, 1210, 70, grey)
+		drawfillbox (800, 100, 1000, 150, grey)
+		drawfillbox (1010, 100, 1210, 150, grey)
+		Font.Draw ("Call", 875, 110, font1, black)
+		Font.Draw ("Raise", 1075, 110, font1, black)
+		Font.Draw ("Fold", 875, 30, font1, black)
+		Font.Draw ("All-in", 1075, 30, font1, black)
 
 		testGame -> raise (p, amount)
 		b := testGame -> players (p) -> playerBet
@@ -326,6 +352,16 @@ loop
 	    if op = 1 then
 		testGame -> call (p)
 	    elsif op = 2 then
+
+		drawfillbox (800, 20, 1000, 70, grey)
+		drawfillbox (1010, 20, 1210, 70, grey)
+		drawfillbox (800, 100, 1000, 150, grey)
+		drawfillbox (1010, 100, 1210, 150, grey)
+		Font.Draw ("$100", 875, 110, font1, black)
+		Font.Draw ("$200", 1075, 110, font1, black)
+		Font.Draw ("$300", 875, 30, font1, black)
+		Font.Draw ("$400", 1075, 30, font1, black)
+
 		loop
 		    Mouse.ButtonWait ("down", x, y, btnNumber, btnUpDown)
 		    if 800 < x and x < 1000 and 100 < y and y < 150 then
@@ -342,6 +378,16 @@ loop
 			exit when true
 		    end if
 		end loop
+
+		drawfillbox (800, 20, 1000, 70, grey)
+		drawfillbox (1010, 20, 1210, 70, grey)
+		drawfillbox (800, 100, 1000, 150, grey)
+		drawfillbox (1010, 100, 1210, 150, grey)
+		Font.Draw ("Call", 875, 110, font1, black)
+		Font.Draw ("Raise", 1075, 110, font1, black)
+		Font.Draw ("Fold", 875, 30, font1, black)
+		Font.Draw ("All-in", 1075, 30, font1, black)
+
 		testGame -> raise (p, amount)
 		b := b + amount
 	    elsif op = 3 then
@@ -423,6 +469,16 @@ loop
 	    if op = 1 then
 		testGame -> call (p)
 	    elsif op = 2 then
+
+		drawfillbox (800, 20, 1000, 70, grey)
+		drawfillbox (1010, 20, 1210, 70, grey)
+		drawfillbox (800, 100, 1000, 150, grey)
+		drawfillbox (1010, 100, 1210, 150, grey)
+		Font.Draw ("$100", 875, 110, font1, black)
+		Font.Draw ("$200", 1075, 110, font1, black)
+		Font.Draw ("$300", 875, 30, font1, black)
+		Font.Draw ("$400", 1075, 30, font1, black)
+
 		loop
 		    Mouse.ButtonWait ("down", x, y, btnNumber, btnUpDown)
 		    if 800 < x and x < 1000 and 100 < y and y < 150 then
@@ -439,6 +495,16 @@ loop
 			exit when true
 		    end if
 		end loop
+
+		drawfillbox (800, 20, 1000, 70, grey)
+		drawfillbox (1010, 20, 1210, 70, grey)
+		drawfillbox (800, 100, 1000, 150, grey)
+		drawfillbox (1010, 100, 1210, 150, grey)
+		Font.Draw ("Call", 875, 110, font1, black)
+		Font.Draw ("Raise", 1075, 110, font1, black)
+		Font.Draw ("Fold", 875, 30, font1, black)
+		Font.Draw ("All-in", 1075, 30, font1, black)
+
 		testGame -> raise (p, amount)
 		b := b + amount
 	    elsif op = 3 then
@@ -519,5 +585,6 @@ loop
     testGame -> players (2) -> cards -> clearHand
     testGame -> players (3) -> cards -> clearHand
     testGame -> setDeck (cards)
-    pause (1000)
+
+    Pic.Draw (backGround, 0, 0, 0)
 end loop
