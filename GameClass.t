@@ -503,7 +503,6 @@ class game
 				    playerInt (0) := i
 				end if
 				exit
-
 			    end if
 			end for
 		    end if
@@ -517,7 +516,7 @@ class game
 		% Variables for checking
 		flag := false
 		var sArray : array 0 .. 4 of ^card
-		
+
 		% Start from the highest card
 		for decreasing h : upper (pokerHandCheck) .. 0
 		    % Check if the card next to it is one less
@@ -533,6 +532,7 @@ class game
 
 		    % If five consecutive cards are found change flag
 		    if count = 4 then
+			startIndex := h
 			sArray (4) := pokerHandCheck (h - 1)
 			flag := true
 			exit
@@ -544,11 +544,11 @@ class game
 		    var s : ^straight
 		    new straight, s
 
-		    pos := h
+		    pos := startIndex
 		    count := 0
 
 		    loop
-			if upper (allCards) = h or allCards (h + 1) -> value - allCards (h) -> value = 1 then
+			if upper (allCards) = startIndex or allCards (startIndex + 1) -> value - allCards (startIndex) -> value = 1 then
 			    sArray (count) := allCards (pos)
 			    count += 1
 			    pos -= 1
@@ -577,12 +577,11 @@ class game
 		    end if
 		    exit
 		end if
-	    end for
 	    % ############## End Check for Straight ##############
 
 
 	    % ############## Check for triple ##############
-	    
+
 	    % Check for tripple
 	    count := 0
 	    previousValue := -1
@@ -654,7 +653,7 @@ class game
 
 
 	    % ############## Check for Pair ##############
-	    
+
 	    % Check for pair
 	    count := 0
 	    previousValue := -1
