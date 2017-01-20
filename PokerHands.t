@@ -35,7 +35,7 @@ end pokerHand
 
 class pair
     inherit pokerHand
-    export (setCards)
+    export (setCards, isValid)
 
     var cards : array 0 .. 1 of ^card
     score := 1
@@ -63,7 +63,7 @@ end pair
 
 class twoPair
     inherit pokerHand
-    export (setCards)
+    export (setCards, isValid)
 
     var cards : array 0 .. 3 of ^card
     score := 2
@@ -114,7 +114,7 @@ end twoPair
 
 class triple
     inherit pokerHand
-    export (setCards)
+    export (setCards, isValid)
 
     var cards : array 0 .. 2 of ^card
     score := 3
@@ -144,7 +144,7 @@ end triple
 
 class straight
     inherit pokerHand
-    export (setCards)
+    export (setCards, isValid)
 
     var cards : array 0 .. 4 of ^card
     score := 4
@@ -177,7 +177,7 @@ end straight
 
 class flush
     inherit pokerHand
-    export (setCards)
+    export (setCards, isValid)
 
     var cards : array 0 .. 4 of ^card
     score := 5
@@ -211,7 +211,7 @@ end flush
 
 class fullHouse
     inherit pokerHand
-    export (setCards)
+    export (setCards, isValid)
 
     var cards : array 0 .. 4 of ^card
     score := 6
@@ -243,7 +243,7 @@ end fullHouse
 
 class quad
     inherit pokerHand
-    export (setCards)
+    export (setCards, isValid)
 
     var cards : array 0 .. 3 of ^card
     score := 7
@@ -274,7 +274,7 @@ end quad
 
 class straightFlush
     inherit pokerHand
-    export (setCards)
+    export (setCards, isValid)
 
     var cards : array 0 .. 4 of ^card
     score := 8
