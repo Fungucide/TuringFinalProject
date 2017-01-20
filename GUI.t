@@ -97,6 +97,7 @@ end for
 % buttons
 
 
+procedure startGame
 testGame -> initialize (cards)
 
 loop
@@ -578,7 +579,7 @@ loop
 	temp := testGame -> burnPile -> pop
 	exit when testGame -> burnPile -> size = -1
     end loop
-
+    
     testGame -> communityPile -> clearHand
     testGame -> players (0) -> cards -> clearHand
     testGame -> players (1) -> cards -> clearHand
@@ -588,3 +589,4 @@ loop
 
     Pic.Draw (backGround, 0, 0, 0)
 end loop
+end startGame

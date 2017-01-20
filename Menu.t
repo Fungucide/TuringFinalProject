@@ -7,7 +7,7 @@ View.Set ("offscreeenonly")
 var back := Pic.FileNew ("table.jpg")
 back := Pic.Scale (back, 1280, 680)
 Pic.Draw (back, 0, 0, 0)
-
+include "GUI.t"
 
 var mx, my, mbtnNumber, mbtnUpDown : int
 
@@ -26,7 +26,8 @@ loop
 
     Mouse.ButtonWait ("down", mx, my, mbtnNumber, mbtnUpDown)
     if 575 < mx and mx < 725 and 350 < my and my < 400 then
-	exit when true
+	Pic.Draw (back, 0, 0, 0)
+	startGame
     elsif 575 < mx and mx < 725 and 250 < my and my < 300 then
 	Pic.Draw (back, 0, 0, 0)
 	Font.Draw ("1. click on play", 100, 600, font, white)
@@ -44,5 +45,5 @@ loop
 	Window.Close (wind)
     end if
 end loop
-include "GUI.t"
+
 
