@@ -324,7 +324,7 @@ class game
 		    new quad, q
 		    var qCards : array 0 .. 3 of ^card
 		    for h : 0 .. 3
-			%% put #allCards (startIndex - h), " ", startIndex, " ", h
+			% put #allCards (startIndex - h), " ", startIndex, " ", h
 			qCards (h) := allCards (startIndex - h)
 		    end for
 		    q -> setCards (qCards)
@@ -377,7 +377,7 @@ class game
 		% Check for Tripples
 		count := 0
 		previousValue := -1
-		for h : 0 .. 6
+		for decreasing h : 6 .. 0
 		    if allCards (h) -> value = previousValue then
 			count += 1
 		    else
@@ -395,7 +395,7 @@ class game
 		% Check for Doubles
 		count := 0
 		previousValue := -1
-		for h : 0 .. 6
+		for decreasing h : 0 .. 6
 		    if not flag then
 			exit
 		    elsif allCards (h) -> value = previousValue and allCards (h) -> value not= allCards (startIndex) -> value then
