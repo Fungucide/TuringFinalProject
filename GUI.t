@@ -227,7 +227,23 @@ loop
 	    if op = 1 then
 		testGame -> call (p)
 	    elsif op = 2 then
-		get amount
+		loop
+		    Mouse.ButtonWait ("down", x, y, btnNumber, btnUpDown)
+		    if 800 < x and x < 1000 and 100 < y and y < 150 then
+			amount := 100
+			exit when true
+		    elsif 1010 < x and x < 1210 and 100 < y and y < 150 then
+			amount := 200
+			exit when true
+		    elsif 800 < x and x < 1000 and 20 < y and y < 70 then
+			amount := 300
+			exit when true
+		    elsif 1010 < x and x < 1210 and 20 < y and y < 70 then
+			amount := 400
+			exit when true
+		    end if
+		end loop
+
 		testGame -> raise (p, amount)
 		b := testGame -> players (p) -> playerBet
 	    elsif op = 3 then
@@ -310,7 +326,22 @@ loop
 	    if op = 1 then
 		testGame -> call (p)
 	    elsif op = 2 then
-		get amount
+		loop
+		    Mouse.ButtonWait ("down", x, y, btnNumber, btnUpDown)
+		    if 800 < x and x < 1000 and 100 < y and y < 150 then
+			amount := 100
+			exit when true
+		    elsif 1010 < x and x < 1210 and 100 < y and y < 150 then
+			amount := 200
+			exit when true
+		    elsif 800 < x and x < 1000 and 20 < y and y < 70 then
+			amount := 300
+			exit when true
+		    elsif 1010 < x and x < 1210 and 20 < y and y < 70 then
+			amount := 400
+			exit when true
+		    end if
+		end loop
 		testGame -> raise (p, amount)
 		b := b + amount
 	    elsif op = 3 then
@@ -392,7 +423,22 @@ loop
 	    if op = 1 then
 		testGame -> call (p)
 	    elsif op = 2 then
-		get amount
+		loop
+		    Mouse.ButtonWait ("down", x, y, btnNumber, btnUpDown)
+		    if 800 < x and x < 1000 and 100 < y and y < 150 then
+			amount := 100
+			exit when true
+		    elsif 1010 < x and x < 1210 and 100 < y and y < 150 then
+			amount := 200
+			exit when true
+		    elsif 800 < x and x < 1000 and 20 < y and y < 70 then
+			amount := 300
+			exit when true
+		    elsif 1010 < x and x < 1210 and 20 < y and y < 70 then
+			amount := 400
+			exit when true
+		    end if
+		end loop
 		testGame -> raise (p, amount)
 		b := b + amount
 	    elsif op = 3 then
