@@ -112,7 +112,11 @@ class game
     procedure call (n : int)
 	for i : 0 .. 3
 	    if players (n) -> playerBet < players (i) -> playerBet then
-		players (n) -> bet (players (i) -> playerBet - players (n) -> playerBet)
+		if players (n) -> points >= players (i) -> playerBet - players (n) -> playerBet then
+		    players (n) -> bet (players (i) -> playerBet - players (n) -> playerBet)
+		else
+		    players (n) -> bet (players (n) -> points)
+		end if
 	    end if
 	end for
 	players (n) -> call
