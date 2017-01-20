@@ -16,20 +16,36 @@ backGround := Pic.Scale (backGround, 1280, 680)
 var x, y, btnNumber, btnUpDown, buttons : int
 var win : array 0 .. 3 of boolean
 
+var imgName : string
+var names : array 1 .. 4, 1 .. 13, 0 .. 3 of int
+for i : 1 .. 4
+    for j : 1 .. 13
+	for k : 0 .. 3
+	    imgName := "Cards/" + intstr (j) + intstr (i) + ".gif"
+	    names (i, j, k) := Pic.FileNew (imgName)
+	    names (i, j, k) := Pic.Scale (names (i, j, k), 100, 150)
+	    names (i, j, k) := Pic.Rotate (names (i, j, k), 90 * k, -1, -1)
+	end for
+    end for
+end for
 
-
+var cardBack : array 0 .. 3 of int
+for i : 0 .. 3
+    cardBack (i) := Pic.FileNew ("backOfCard.gif")
+    cardBack (i) := Pic.Scale (cardBack (i), 100, 150)
+    cardBack (i) := Pic.Rotate (cardBack (i), 90 * i, -1, -1)
+end for
 
 procedure getCardImage (value, suit, x, y, revealed, rotation : int)
-    var imgName := "Cards/" + intstr (value) + intstr (suit) + ".gif"
+    %var imgName := "Cards/" + intstr (value) + intstr (suit) + ".gif"
     %put(imgName)
 
     if revealed = 0 then
-	image := Pic.FileNew (imgName)
+	image := names (suit, value, rotation)
     else
-	image := Pic.FileNew ("backOfCard.gif")
+	image := cardBack (rotation)
     end if
-    image := Pic.Scale (image, 100, 150)
-    image := Pic.Rotate (image, 90 * rotation, -1, -1)
+
     Pic.Draw (image, x, y, 0)
 end getCardImage
 

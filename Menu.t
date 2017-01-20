@@ -7,6 +7,8 @@ View.Set ("offscreeenonly")
 var back := Pic.FileNew ("table.jpg")
 back := Pic.Scale (back, 1280, 680)
 Pic.Draw (back, 0, 0, 0)
+font := Font.New ("serif:80")
+Font.Draw("LOADING...",700,20,font,white)
 include "GUI.t"
 
 var mx, my, mbtnNumber, mbtnUpDown : int
