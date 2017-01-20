@@ -544,7 +544,18 @@ loop
     Font.Draw ("Current points: " + leftPad (b, 4), 680, 400, font1, white)
 
     var win : array 0 .. 3 of boolean
+    var numberOfPlayersWon:int:=0
     win := testGame -> checkWin
+    for i:0..3
+	if win(i) then
+	    numberOfPlayersWon+=1
+	end
+    end for
+    for i:0..3 
+	if win(i) then
+	    testGame->players(i)->points+=testGame->pot div numberOfPlayersWon
+	end if
+    end  for
 
     testGame -> players (0) -> cards -> getCards (see)
     getCardImage (see (0) -> value, see (0) -> suit, 525, 20, 0, 0)
