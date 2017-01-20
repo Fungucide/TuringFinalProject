@@ -15,7 +15,7 @@ include "PokerHands.t"
 class player
 
     import card, hand, sort
-    export (points, cards, playerBet, folded, called, bet, call, uncall, fold, unfold, clearBet)
+    export (points, cards, playerBet, folded, called, bet, call, uncall, fold, unfold, clearBet, win)
 
     var points : int := 2000
     var playerBet : int := 0
@@ -58,7 +58,7 @@ end player
 class game
 
     import card, hand, sort, deckOfCards, player, pokerHand, straightFlush, quad, fullHouse, flush, straight, triple, twoPair, pair
-    export (dealPile, burnPile, communityPile, players, smallBlind, bigBlind, dealerPos, pot, initialize, dealPlayer, dealCommunity, call, raise, fold, allIn, endRound, checkWin, setDeck)
+    export (dealPile, burnPile, communityPile, players, smallBlind, bigBlind, dealerPos, pot, initialize, dealPlayer, dealCommunity, call, raise, fold, allIn, endRound, checkWin, setDeck, clearPot)
 
     var dealPile : ^deckOfCards
     var burnPile : ^deckOfCards
@@ -156,6 +156,10 @@ class game
 	result false
     end endRound
 
+    procedure clearPot
+	pot := 0
+    end clearPot
+
     function checkWin : array 0 .. 3 of boolean
 	% Check using bf : all possible pokerHands : all possible hands
 	var highestPH : ^pokerHand
@@ -251,7 +255,7 @@ class game
 		    sort (pokerHandCheck)
 		    % Assume that there is no straight
 		    flag := false
-		    count:=0
+		    count := 0
 		    % Start from the highest card
 		    for decreasing h : upper (pokerHandCheck) .. 1
 			% Check if the card next to it is one less
@@ -322,7 +326,7 @@ class game
 			exit
 		    end if
 		end for
-		
+
 		% If there is a quad check to see if it is the biggest
 		if count = 4 then
 		    var q : ^quad
@@ -625,7 +629,7 @@ class game
 			    new playerInt, 0
 			    playerInt (0) := i
 			elsif p -> compare (highestPH) = 0 then
-			   new playerInt, upper (playerInt) + 1
+			    new playerInt, upper (playerInt) + 1
 			    playerInt (upper (playerInt)) := i
 			end if
 		    else

@@ -13,6 +13,7 @@ var mx, my, mbtnNumber, mbtnUpDown : int
 
 
 loop
+    Pic.Draw (back, 0, 0, 0)
     font := Font.New ("serif:80")
     Font.Draw ("Texas Hold'em", 320, 450, font, white)
     drawfillbox (575, 350, 725, 400, white)
