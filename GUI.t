@@ -8,9 +8,8 @@
 % Dec 21, 2016
 % - figuring out position for all cards
 % ---------------------
-var font1 : int
+var font1, font2 : int
 var image : int
-View.Set ("offscreeenonly")
 var backGround := Pic.FileNew ("table.jpg")
 backGround := Pic.Scale (backGround, 1280, 680)
 var x, y, btnNumber, btnUpDown, buttons : int
@@ -196,7 +195,7 @@ procedure startGame
 
 	% round 1
 	loop
-	    if testGame -> players (p) -> folded = false then
+	    if testGame -> players (p) -> folded = false or testGame -> players (p) -> points = 0 then
 
 		drawfillbox (800, 20, 1000, 70, grey)
 		drawfillbox (1010, 20, 1210, 70, grey)
@@ -603,10 +602,10 @@ procedure startGame
 	Pic.Draw (backGround, 0, 0, 0)
     end loop
     drawfillbox (0, 0, 1280, 680, black)
-    font1 := Font.New ("serif:100")
+    font2 := Font.New ("serif:100")
     for i : 0 .. 3
 	if win (i) then
-	    Font.Draw ("Player " + intstr (i + 1 mod 4) + " won", 20, 200, font1, white)
+	    Font.Draw ("Player " + intstr (i + 1 mod 4) + " won", 20, 200, font2, white)
 	end if
     end for
     Mouse.ButtonWait ("down", x, y, btnNumber, btnUpDown)

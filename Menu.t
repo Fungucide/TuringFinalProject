@@ -46,6 +46,7 @@ loop
 	Pic.Draw (back, 0, 0, 0)
     elsif 575 < mx and mx < 725 and 150 < my and my < 200 then
 	Window.Close (wind)
+	return
     end if
 end loop
 
