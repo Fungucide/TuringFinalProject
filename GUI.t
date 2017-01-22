@@ -140,8 +140,8 @@ procedure startGame
 
 
 	testGame -> players (3) -> cards -> getCards (see)
-	getCardImage (see (0) -> value, see (0) -> suit, 220, 225, 1, 1)
-	getCardImage (see (1) -> value, see (1) -> suit, 220, 375, 1, 1)
+	getCardImage (see (0) -> value, see (0) -> suit, 20, 225, 1, 1)
+	getCardImage (see (1) -> value, see (1) -> suit, 20, 375, 1, 1)
 
 	testGame -> dealCommunity (3)
 
@@ -156,8 +156,8 @@ procedure startGame
 	getCardImage (see (0) -> value, see (0) -> suit, 525, 510, 1, 2)
 	getCardImage (see (1) -> value, see (1) -> suit, 675, 510, 1, 2)
 	testGame -> players (3) -> cards -> getCards (see)
-	getCardImage (see (0) -> value, see (0) -> suit, 220, 225, 1, 1)
-	getCardImage (see (1) -> value, see (1) -> suit, 220, 375, 1, 1)
+	getCardImage (see (0) -> value, see (0) -> suit, 20, 225, 1, 1)
+	getCardImage (see (1) -> value, see (1) -> suit, 20, 375, 1, 1)
 
 
 
@@ -216,8 +216,8 @@ procedure startGame
 		getCardImage (see (0) -> value, see (0) -> suit, 525, 510, p - 2, 2)
 		getCardImage (see (1) -> value, see (1) -> suit, 675, 510, p - 2, 2)
 		testGame -> players (3) -> cards -> getCards (see)
-		getCardImage (see (0) -> value, see (0) -> suit, 220, 225, p - 3, 1)
-		getCardImage (see (1) -> value, see (1) -> suit, 220, 375, p - 3, 1)
+		getCardImage (see (0) -> value, see (0) -> suit, 20, 225, p - 3, 1)
+		getCardImage (see (1) -> value, see (1) -> suit, 20, 375, p - 3, 1)
 
 		loop
 		    Mouse.ButtonWait ("down", x, y, btnNumber, btnUpDown)
@@ -334,8 +334,8 @@ procedure startGame
 		getCardImage (see (0) -> value, see (0) -> suit, 525, 510, p - 2, 2)
 		getCardImage (see (1) -> value, see (1) -> suit, 675, 510, p - 2, 2)
 		testGame -> players (3) -> cards -> getCards (see)
-		getCardImage (see (0) -> value, see (0) -> suit, 220, 225, p - 3, 1)
-		getCardImage (see (1) -> value, see (1) -> suit, 220, 375, p - 3, 1)
+		getCardImage (see (0) -> value, see (0) -> suit, 20, 225, p - 3, 1)
+		getCardImage (see (1) -> value, see (1) -> suit, 20, 375, p - 3, 1)
 
 		loop
 		    Mouse.ButtonWait ("down", x, y, btnNumber, btnUpDown)
@@ -451,8 +451,8 @@ procedure startGame
 		getCardImage (see (0) -> value, see (0) -> suit, 525, 510, p - 2, 2)
 		getCardImage (see (1) -> value, see (1) -> suit, 675, 510, p - 2, 2)
 		testGame -> players (3) -> cards -> getCards (see)
-		getCardImage (see (0) -> value, see (0) -> suit, 220, 225, p - 3, 1)
-		getCardImage (see (1) -> value, see (1) -> suit, 220, 375, p - 3, 1)
+		getCardImage (see (0) -> value, see (0) -> suit, 20, 225, p - 3, 1)
+		getCardImage (see (1) -> value, see (1) -> suit, 20, 375, p - 3, 1)
 
 		loop
 		    Mouse.ButtonWait ("down", x, y, btnNumber, btnUpDown)
@@ -575,8 +575,8 @@ procedure startGame
 	getCardImage (see (0) -> value, see (0) -> suit, 525, 510, 0, 2)
 	getCardImage (see (1) -> value, see (1) -> suit, 675, 510, 0, 2)
 	testGame -> players (3) -> cards -> getCards (see)
-	getCardImage (see (0) -> value, see (0) -> suit, 220, 225, 0, 1)
-	getCardImage (see (1) -> value, see (1) -> suit, 220, 375, 0, 1)
+	getCardImage (see (0) -> value, see (0) -> suit, 20, 225, 0, 1)
+	getCardImage (see (1) -> value, see (1) -> suit, 20, 375, 0, 1)
 
 	Mouse.ButtonWait ("down", x, y, btnNumber, btnUpDown)
 
