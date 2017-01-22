@@ -178,7 +178,7 @@ procedure startGame
 	testGame -> raise ((testGame -> dealerPos + 1) mod 4, 100)
 	testGame -> raise (testGame -> dealerPos, 100)
 
-	b := 200
+	b := 300
 
 	drawfillbox (570, 175, 720, 205, green)
 	drawfillbox (570, 475, 720, 505, green)
