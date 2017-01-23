@@ -57,7 +57,7 @@ end player
 
 class game
 
-    import card, hand, sort, deckOfCards, player, pokerHand, straightFlush, quad, fullHouse, flush, straight, triple, twoPair, pair
+    import card, hand, sort, deckOfCards, player, pokerHand, straightFlush, quad, fullHouse, flush, straight, triple, twoPair, pair, single
     export (dealPile, burnPile, communityPile, players, smallBlind, bigBlind, dealerPos, pot, initialize, dealPlayer, dealCommunity, call, raise, fold, allIn, endRound, checkWin, setDeck, clearPot)
 
     var dealPile : ^deckOfCards
@@ -143,7 +143,7 @@ class game
     function endRound : boolean
 	var foldNum := 0
 	for i : 0 .. 3
-	    if players (i) -> folded or players (i) -> called then
+	    if players (i) -> folded or players (i) -> called or players (i) -> points = 0 then
 		foldNum += 1
 	    end if
 	end for
@@ -501,6 +501,11 @@ class game
 		% Start from the highest card
 		for decreasing h : upper (pokerHandCheck) .. 1
 		    % Check if the card next to it is one less
+		    
+		    if pokerHandCheck (h) -> value = -1 then
+		    elsif pokerHandCheck (h - 1) -> value = -1 then
+		    end if
+		    
 		    if pokerHandCheck (h) -> value - pokerHandCheck (h - 1) -> value = 1 then
 			sArray (count) := pokerHandCheck (h)
 			count += 1
@@ -646,6 +651,75 @@ class game
 		end if
 		% ############## End Check for Pair ##############
 
+		% ############## Check for Single ##############
+		var s : ^single
+		new single, s
+		var siArray : array 0 .. 4 of ^card
+		for decreasing h : 6 .. 2
+		    siArray (h - 2) := allCards (h)
+		end for
+		s -> setCards (siArray)
+
+		if setValues then
+		    if s -> compare (highestPH) = 1 then
+			highestPH := s
+			highestHand := players (i) -> cards
+			new playerInt, 0
+			playerInt (0) := i
+		    elsif s -> compare (highestPH) = 0 then
+			new pokerHandCheck, 6
+			communityPile -> getCards (pokerHandCheck)
+			highestHand -> getCards (playerHand)
+
+			var siCompare : array 0 .. 4 of ^card
+			var cpCount : int := 0
+			var hhCount : int := 0
+
+			for h : 0 .. 4
+			    if cpCount > 6 then
+				siCompare (h) := playerHand (hhCount)
+				hhCount += 1
+			    elsif hhCount > 1 then
+				siCompare (h) := pokerHandCheck (cpCount)
+				cpCount += 1
+			    elsif pokerHandCheck (cpCount) -> compare (playerHand (hhCount)) = 1 then
+				siCompare (h) := pokerHandCheck (cpCount)
+				cpCount += 1
+			    else
+				siCompare (h) := playerHand (hhCount)
+				hhCount += 1
+			    end if
+			end for
+
+			flag := false
+
+			for h : 0 .. 4
+			    if siArray (h) -> compare (siCompare (h)) = 1 then
+				highestPH := s
+				highestHand := players (i) -> cards
+				new playerInt, 0
+				playerInt (0) := i
+				flag := true
+				exit
+			    elsif siArray (h) -> compare (siCompare (h)) = -1 then
+				flag := true
+				exit
+			    end if
+			end for
+			if not flag then
+			    new playerInt, upper (playerInt) + 1
+			    playerInt (upper (playerInt)) := i
+			end if
+
+		    end if
+		else
+		    setValues := true
+		    highestPH := s
+		    highestHand := players (i) -> cards
+		    new playerInt, 0
+		    playerInt (0) := i
+		end if
+		% ############## End Check for Single ##############
 	    end if
 
 	end for

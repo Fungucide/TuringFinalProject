@@ -1,17 +1,8 @@
 % PokerHands.t
 % Dec 5, 2016
 % William Fung
+% Max Tang
 % Poker Hands
-
-% Updates
-% ---------------------
-% Dec 15, 2016
-% - Initial Creation of file
-% ---------------------
-% Dec 17, 2016
-% -Added all pokerhands
-
-% NOTE: Need to be careful for high or low ace
 
 include "CardClass.t"
 class pokerHand
@@ -33,6 +24,20 @@ class pokerHand
 
 end pokerHand
 
+class single
+    inherit pokerHand
+    export (setCards, cards)
+
+    var cards : array 0 .. 4 of ^card
+    score := 0
+
+    procedure setCards (c : array 0 .. 4 of ^card)
+	cards := c
+	sort (cards)
+	highCard := c (upper (c))
+    end setCards
+end single
+
 class pair
     inherit pokerHand
     export (setCards, isValid)
@@ -49,8 +54,8 @@ class pair
     end isValid
 
     procedure setCards (c : array 0 .. 1 of ^card)
-	cards (0) := c (0)
-	cards (1) := c (1)
+	cards := c
+	sort (cards)
 	var valid : boolean
 	var highCard := cards (0)
 	if not isValid (cards) then
@@ -97,13 +102,11 @@ class twoPair
     end isValid
 
     procedure setCards (c : array 0 .. 3 of ^card)
-	cards (0) := c (0)
-	cards (1) := c (1)
-	cards (2) := c (2)
-	cards (3) := c (3)
-	var highCard := cards (0)
+	cards := c
+	sort (cards)
+	var highCard := cards (3)
 	if not isValid (cards) then
-	    put "ERROR -> triple -> setCards"
+	    put "ERROR -> twoPair -> setCards"
 	    cards (0) := nil
 	    cards (1) := nil
 	    cards (2) := nil
@@ -128,9 +131,8 @@ class triple
     end isValid
 
     procedure setCards (c : array 0 .. 2 of ^card)
-	cards (0) := c (0)
-	cards (1) := c (1)
-	cards (2) := c (2)
+	cards := c
+	sort (cards)
 	var highCard := cards (0)
 
 	if not isValid (cards) then
@@ -159,13 +161,9 @@ class straight
     end isValid
 
     procedure setCards (c : array 0 .. 4 of ^card)
-	var temp := c
-	sort (temp)
-	highCard := temp (4)
-	for i : 0 .. 4
-	    cards (i) := temp (i)
-	end for
-
+	cards := c
+	sort (cards)
+	highCard := cards (4)
 	if not isValid (cards) then
 	    put "ERROR -> straight -> setCards"
 	    for i : 0 .. 4
@@ -192,14 +190,9 @@ class flush
     end isValid
 
     procedure setCards (c : array 0 .. 4 of ^card)
-	highCard := c (0)
-	for i : 0 .. 4
-	    cards (i) := c (i)
-	    if highCard -> compare (c (i)) = -1 then
-		highCard := c (i)
-	    end if
-	end for
-
+	cards := c
+	sort (cards)
+	highCard := cards (4)
 	if not isValid (cards) then
 	    put "ERROR -> flush -> setCards"
 	    for i : 0 .. 4
@@ -225,13 +218,9 @@ class fullHouse
     end isValid
 
     procedure setCards (c : array 0 .. 4 of ^card)
-	var temp := c
-	sort (temp)
-	highCard := temp (2)
-	for i : 0 .. 4
-	    cards (i) := temp (i)
-	end for
-
+	cards := c
+	sort (cards)
+	highCard := cards (2)
 	if not isValid (cards) then
 	    put "ERROR -> fullHouse -> setCards"
 	    for i : 0 .. 4
@@ -258,6 +247,8 @@ class quad
     end isValid
 
     procedure setCards (c : array 0 .. 3 of ^card)
+	cards := c
+	sort (cards)
 	highCard := c (0)
 	for i : 0 .. 3
 	    cards (i) := c (i)
@@ -289,13 +280,9 @@ class straightFlush
     end isValid
 
     procedure setCards (c : array 0 .. 4 of ^card)
-	var temp := c
-	sort (temp)
-	highCard := temp (4)
-	for i : 0 .. 4
-	    cards (i) := temp (i)
-	end for
-
+	cards := c
+	sort (cards)
+	highCard := cards (4)
 	if not isValid (cards) then
 	    put "ERROR -> straightFlush -> setCards"
 	    for i : 0 .. 4

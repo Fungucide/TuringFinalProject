@@ -80,6 +80,7 @@ end leftPad
  %points
  */
 font1 := Font.New ("serif:20")
+font2 := Font.New ("serif:100")
 
 
 
@@ -170,14 +171,14 @@ procedure startGame
 
 
 	var op : int
-	var p : int := 0
+	var p : int := (testGame -> dealerPos + 1) mod 4
 	var amount : int
 	var b : int := 0
 
-	testGame -> raise ((testGame -> dealerPos + 1) mod 4, 100)
-	testGame -> raise (testGame -> dealerPos, 100)
+	testGame -> raise ((testGame -> dealerPos + 3) mod 4, 100)
+	testGame -> raise ((testGame -> dealerPos + 2) mod 4, 50)
 
-	b := 300
+	b := 150
 
 	drawfillbox (570, 175, 720, 205, green)
 	drawfillbox (570, 475, 720, 505, green)
@@ -195,8 +196,8 @@ procedure startGame
 
 	% round 1
 	loop
-	    if testGame -> players (p) -> folded = false or testGame -> players (p) -> points = 0 then
-
+	    exit when testGame -> endRound
+	    if testGame -> players (p) -> folded = false and testGame -> players (p) -> points not= 0 then
 		drawfillbox (800, 20, 1000, 70, grey)
 		drawfillbox (1010, 20, 1210, 70, grey)
 		drawfillbox (800, 100, 1000, 150, grey)
@@ -284,9 +285,19 @@ procedure startGame
 		    b := testGame -> players (p) -> playerBet
 		end if
 	    end if
-	    p := p + 1
-	    p := p mod 4
-	    exit when testGame -> endRound
+	    p := (p - 1) mod 4
+
+	    cls
+	    Pic.Draw (backGround, 0, 0, 0)
+	    Font.Draw ("Player " + intstr (p + 1, 1) + "'s turn", 20, 200, font2, white)
+	    Font.Draw ("Click anywhere to continue", 20, 150, font1, white)
+	    Mouse.ButtonWait ("down", x, y, btnNumber, btnUpDown)
+	    cls
+	    Pic.Draw (backGround, 0, 0, 0)
+	    getCardImage (community (0) -> value, community (0) -> suit, 360, 230, 0, 0)
+	    getCardImage (community (1) -> value, community (1) -> suit, 480, 230, 0, 0)
+	    getCardImage (community (2) -> value, community (2) -> suit, 600, 230, 0, 0)
+
 	    drawfillbox (570, 175, 720, 205, green)
 	    drawfillbox (570, 475, 720, 505, green)
 	    drawfillbox (20, 485, 170, 515, green)
@@ -323,7 +334,18 @@ procedure startGame
 
 	% round 2
 	loop
-	    if testGame -> players (p) -> folded = false then
+	    exit when testGame -> endRound
+
+	    drawfillbox (800, 20, 1000, 70, grey)
+	    drawfillbox (1010, 20, 1210, 70, grey)
+	    drawfillbox (800, 100, 1000, 150, grey)
+	    drawfillbox (1010, 100, 1210, 150, grey)
+	    Font.Draw ("Call", 875, 110, font1, black)
+	    Font.Draw ("Raise", 1075, 110, font1, black)
+	    Font.Draw ("Fold", 875, 30, font1, black)
+	    Font.Draw ("All-in", 1075, 30, font1, black)
+
+	    if testGame -> players (p) -> folded = false and testGame -> players (p) -> points not= 0 then
 		testGame -> players (0) -> cards -> getCards (see)
 		getCardImage (see (0) -> value, see (0) -> suit, 525, 20, p, 0)
 		getCardImage (see (1) -> value, see (1) -> suit, 675, 20, p, 0)
@@ -401,9 +423,20 @@ procedure startGame
 		    testGame -> allIn (p)
 		end if
 	    end if
-	    p := p + 1
-	    p := p mod 4
-	    exit when testGame -> endRound
+	    p := (p - 1) mod 4
+
+	    cls
+	    Pic.Draw (backGround, 0, 0, 0)
+	    Font.Draw ("Player " + intstr (p + 1, 1) + "'s turn", 20, 200, font2, white)
+	    Font.Draw ("Click anywhere to continue", 20, 150, font1, white)
+	    Mouse.ButtonWait ("down", x, y, btnNumber, btnUpDown)
+	    cls
+	    Pic.Draw (backGround, 0, 0, 0)
+	    getCardImage (community (0) -> value, community (0) -> suit, 360, 230, 0, 0)
+	    getCardImage (community (1) -> value, community (1) -> suit, 480, 230, 0, 0)
+	    getCardImage (community (2) -> value, community (2) -> suit, 600, 230, 0, 0)
+	    getCardImage (community (3) -> value, community (3) -> suit, 720, 230, 0, 0)
+
 	    drawfillbox (570, 175, 720, 205, green)
 	    drawfillbox (570, 475, 720, 505, green)
 	    drawfillbox (20, 485, 170, 515, green)
@@ -440,7 +473,18 @@ procedure startGame
 
 	% round 3
 	loop
-	    if testGame -> players (p) -> folded = false then
+	    exit when testGame -> endRound
+
+	    drawfillbox (800, 20, 1000, 70, grey)
+	    drawfillbox (1010, 20, 1210, 70, grey)
+	    drawfillbox (800, 100, 1000, 150, grey)
+	    drawfillbox (1010, 100, 1210, 150, grey)
+	    Font.Draw ("Call", 875, 110, font1, black)
+	    Font.Draw ("Raise", 1075, 110, font1, black)
+	    Font.Draw ("Fold", 875, 30, font1, black)
+	    Font.Draw ("All-in", 1075, 30, font1, black)
+
+	    if testGame -> players (p) -> folded = false and testGame -> players (p) -> points not= 0 then
 		testGame -> players (0) -> cards -> getCards (see)
 		getCardImage (see (0) -> value, see (0) -> suit, 525, 20, p, 0)
 		getCardImage (see (1) -> value, see (1) -> suit, 675, 20, p, 0)
@@ -518,9 +562,21 @@ procedure startGame
 		    testGame -> allIn (p)
 		end if
 	    end if
-	    p := p + 1
-	    p := p mod 4
-	    exit when testGame -> endRound
+	    p := (p - 1) mod 4
+
+	    cls
+	    Pic.Draw (backGround, 0, 0, 0)
+	    Font.Draw ("Player " + intstr (p + 1, 1) + "'s turn", 20, 200, font2, white)
+	    Font.Draw ("Click anywhere to continue", 20, 150, font1, white)
+	    Mouse.ButtonWait ("down", x, y, btnNumber, btnUpDown)
+	    cls
+	    Pic.Draw (backGround, 0, 0, 0)
+	    getCardImage (community (0) -> value, community (0) -> suit, 360, 230, 0, 0)
+	    getCardImage (community (1) -> value, community (1) -> suit, 480, 230, 0, 0)
+	    getCardImage (community (2) -> value, community (2) -> suit, 600, 230, 0, 0)
+	    getCardImage (community (3) -> value, community (3) -> suit, 720, 230, 0, 0)
+	    getCardImage (community (4) -> value, community (4) -> suit, 840, 230, 0, 0)
+
 	    drawfillbox (570, 175, 720, 205, green)
 	    drawfillbox (570, 475, 720, 505, green)
 	    drawfillbox (20, 485, 170, 515, green)
@@ -601,8 +657,7 @@ procedure startGame
 
 	Pic.Draw (backGround, 0, 0, 0)
     end loop
-    drawfillbox (0, 0, 1280, 680, black)
-    font2 := Font.New ("serif:100")
+    Pic.Draw (backGround, 0, 0, 0)
     for i : 0 .. 3
 	if win (i) then
 	    Font.Draw ("Player " + intstr (i + 1 mod 4) + " won", 20, 200, font2, white)
