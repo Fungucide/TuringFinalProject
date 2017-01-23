@@ -18,16 +18,14 @@
 % ---------------------
 % Dec 17, 2016
 % - Added a way to sort cards
-
-% To do
 % ---------------------
-% - Add Hand Class
-
+% Dec 19, 2016
+% - Fixing export issues
 
 % Class representing a single card
 class card
 
-    export (value, suit, image, setValues, setImage, compare, shuffle)
+    export (value, suit, image, setValues, setImage, compare)
 
     % Vaues for class
     var value : int
@@ -90,7 +88,7 @@ class deckOfCards
     % Add a card to the deck
     procedure push (c : ^card)
 	new cards, size + 1
-	cards (size) := c
+	cards (size + 1) := c
 	size += 1
     end push
 
@@ -140,7 +138,7 @@ class hand
     import card
 
     % Export needed functions
-    export (addCard, clearHand, size, getCards, cards)
+    export (addCard, clearHand, size, getCards)
 
     % Store cards and size
     var cards : flexible array 0 .. -1 of ^card
@@ -148,9 +146,9 @@ class hand
 
     % Add a card to the hand
     procedure addCard (c : ^card)
-	new cards, size + 1
-	cards (size) := c
 	size += 1
+	new cards, size
+	cards (size) := c
     end addCard
 
     % Remove all cards from hand
@@ -169,6 +167,11 @@ end hand
 
 % A way to sort cards
 procedure sort (var c : array 0 .. * of ^card)
+
+    for i : 0 .. upper (c)
+	%put "v: ", c (i) -> value
+	%put "s: ", c (i) -> suit
+    end for
 
     % If array is one element long it is sorted
     if upper (c) < 1 then
@@ -198,8 +201,8 @@ procedure sort (var c : array 0 .. * of ^card)
     end for
 
     % Set values of second array
-    for i : ss .. upper (c) - 1
-	s (i - ss) := c (i)
+    for i : fs + 1 .. upper (c)
+	s (i - fs - 1) := c (i)
     end for
 
     % Sort the arrays
