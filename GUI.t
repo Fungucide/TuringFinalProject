@@ -284,19 +284,22 @@ procedure startGame
 		    testGame -> allIn (p)
 		    b := testGame -> players (p) -> playerBet
 		end if
+
+		cls
+		Pic.Draw (backGround, 0, 0, 0)
+		Font.Draw ("Player " + intstr ((p + 2) mod 4, 1) + "'s turn", 20, 200, font2, white)
+		Font.Draw ("Click anywhere to continue", 20, 150, font1, white)
+		Mouse.ButtonWait ("down", x, y, btnNumber, btnUpDown)
+		cls
+		Pic.Draw (backGround, 0, 0, 0)
+		getCardImage (community (0) -> value, community (0) -> suit, 360, 230, 0, 0)
+		getCardImage (community (1) -> value, community (1) -> suit, 480, 230, 0, 0)
+		getCardImage (community (2) -> value, community (2) -> suit, 600, 230, 0, 0)
+
 	    end if
 	    p := (p - 1) mod 4
 
-	    cls
-	    Pic.Draw (backGround, 0, 0, 0)
-	    Font.Draw ("Player " + intstr (p + 1, 1) + "'s turn", 20, 200, font2, white)
-	    Font.Draw ("Click anywhere to continue", 20, 150, font1, white)
-	    Mouse.ButtonWait ("down", x, y, btnNumber, btnUpDown)
-	    cls
-	    Pic.Draw (backGround, 0, 0, 0)
-	    getCardImage (community (0) -> value, community (0) -> suit, 360, 230, 0, 0)
-	    getCardImage (community (1) -> value, community (1) -> suit, 480, 230, 0, 0)
-	    getCardImage (community (2) -> value, community (2) -> suit, 600, 230, 0, 0)
+
 
 	    drawfillbox (570, 175, 720, 205, green)
 	    drawfillbox (570, 475, 720, 505, green)
@@ -422,20 +425,23 @@ procedure startGame
 		elsif op = 4 then
 		    testGame -> allIn (p)
 		end if
+
+		cls
+		Pic.Draw (backGround, 0, 0, 0)
+		Font.Draw ("Player " + intstr ((p + 2) mod 4, 1) + "'s turn", 20, 200, font2, white)
+		Font.Draw ("Click anywhere to continue", 20, 150, font1, white)
+		Mouse.ButtonWait ("down", x, y, btnNumber, btnUpDown)
+		cls
+		Pic.Draw (backGround, 0, 0, 0)
+		getCardImage (community (0) -> value, community (0) -> suit, 360, 230, 0, 0)
+		getCardImage (community (1) -> value, community (1) -> suit, 480, 230, 0, 0)
+		getCardImage (community (2) -> value, community (2) -> suit, 600, 230, 0, 0)
+		getCardImage (community (3) -> value, community (3) -> suit, 720, 230, 0, 0)
+
 	    end if
 	    p := (p - 1) mod 4
 
-	    cls
-	    Pic.Draw (backGround, 0, 0, 0)
-	    Font.Draw ("Player " + intstr (p + 1, 1) + "'s turn", 20, 200, font2, white)
-	    Font.Draw ("Click anywhere to continue", 20, 150, font1, white)
-	    Mouse.ButtonWait ("down", x, y, btnNumber, btnUpDown)
-	    cls
-	    Pic.Draw (backGround, 0, 0, 0)
-	    getCardImage (community (0) -> value, community (0) -> suit, 360, 230, 0, 0)
-	    getCardImage (community (1) -> value, community (1) -> suit, 480, 230, 0, 0)
-	    getCardImage (community (2) -> value, community (2) -> suit, 600, 230, 0, 0)
-	    getCardImage (community (3) -> value, community (3) -> suit, 720, 230, 0, 0)
+
 
 	    drawfillbox (570, 175, 720, 205, green)
 	    drawfillbox (570, 475, 720, 505, green)
@@ -561,21 +567,23 @@ procedure startGame
 		elsif op = 4 then
 		    testGame -> allIn (p)
 		end if
+
+		cls
+		Pic.Draw (backGround, 0, 0, 0)
+		Font.Draw ("Player " + intstr ((p + 2) mod 4, 1) + "'s turn", 20, 200, font2, white)
+		Font.Draw ("Click anywhere to continue", 20, 150, font1, white)
+		Mouse.ButtonWait ("down", x, y, btnNumber, btnUpDown)
+		cls
+		Pic.Draw (backGround, 0, 0, 0)
+		getCardImage (community (0) -> value, community (0) -> suit, 360, 230, 0, 0)
+		getCardImage (community (1) -> value, community (1) -> suit, 480, 230, 0, 0)
+		getCardImage (community (2) -> value, community (2) -> suit, 600, 230, 0, 0)
+		getCardImage (community (3) -> value, community (3) -> suit, 720, 230, 0, 0)
+		getCardImage (community (4) -> value, community (4) -> suit, 840, 230, 0, 0)
+
 	    end if
 	    p := (p - 1) mod 4
 
-	    cls
-	    Pic.Draw (backGround, 0, 0, 0)
-	    Font.Draw ("Player " + intstr (p + 1, 1) + "'s turn", 20, 200, font2, white)
-	    Font.Draw ("Click anywhere to continue", 20, 150, font1, white)
-	    Mouse.ButtonWait ("down", x, y, btnNumber, btnUpDown)
-	    cls
-	    Pic.Draw (backGround, 0, 0, 0)
-	    getCardImage (community (0) -> value, community (0) -> suit, 360, 230, 0, 0)
-	    getCardImage (community (1) -> value, community (1) -> suit, 480, 230, 0, 0)
-	    getCardImage (community (2) -> value, community (2) -> suit, 600, 230, 0, 0)
-	    getCardImage (community (3) -> value, community (3) -> suit, 720, 230, 0, 0)
-	    getCardImage (community (4) -> value, community (4) -> suit, 840, 230, 0, 0)
 
 	    drawfillbox (570, 175, 720, 205, green)
 	    drawfillbox (570, 475, 720, 505, green)
